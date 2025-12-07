@@ -1,9 +1,9 @@
 package com.productive.social.controllers;
 
-import com.productive.social.dto.AuthResponse;
-import com.productive.social.dto.LoginRequest;
-import com.productive.social.dto.RefreshRequest;
-import com.productive.social.dto.RegisterRequest;
+import com.productive.social.dto.auth.AuthResponse;
+import com.productive.social.dto.auth.LoginRequest;
+import com.productive.social.dto.auth.RefreshRequest;
+import com.productive.social.dto.auth.RegisterRequest;
 import com.productive.social.service.AuthService;
 import com.productive.social.util.CookieUtil;
 

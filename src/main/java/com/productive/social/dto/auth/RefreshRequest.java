@@ -1,4 +1,4 @@
-package com.productive.social.dto;
+package com.productive.social.dto.auth;
 
 import lombok.Data;
 

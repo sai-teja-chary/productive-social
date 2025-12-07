@@ -1,8 +1,8 @@
 package com.productive.social.service;
 
-import com.productive.social.dto.AuthResponse;
-import com.productive.social.dto.LoginRequest;
-import com.productive.social.dto.RegisterRequest;
+import com.productive.social.dto.auth.AuthResponse;
+import com.productive.social.dto.auth.LoginRequest;
+import com.productive.social.dto.auth.RegisterRequest;
 import com.productive.social.entity.RefreshToken;
 import com.productive.social.entity.User;
 import com.productive.social.repository.UserRepository;
@@ -60,14 +60,18 @@ public class AuthService {
 //        return jwtUtil.generateToken(request.getEmail());
 //    }
     public AuthResponse login(LoginRequest request) {
-
+    	// 1. Try to find user by either email or username
+        User user = userRepository
+                .findByEmailOrUsername(request.getIdentifier(), request.getIdentifier())
+                .orElseThrow(() -> new RuntimeException("Invalid username/email or password"));
+        
+        
+        // 2. Authenticate using resolved username (Spring Security matches password from DB)
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
+                new UsernamePasswordAuthenticationToken(request.getIdentifier(), request.getPassword())
         );
 
-        User user = userRepository.findByEmail(request.getEmail()).get();
-
-        String accessToken = jwtUtil.generateToken(request.getEmail());
+        String accessToken = jwtUtil.generateToken(user.getEmail());
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(user);
 
         return new AuthResponse(accessToken, refreshToken.getToken());
