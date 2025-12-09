@@ -1,5 +1,6 @@
 package com.productive.social.service;
 
+import com.productive.social.dao.CommunityDAO;
 import com.productive.social.dto.community.CommunityDetailResponse;
 import com.productive.social.dto.community.CommunityResponse;
 import com.productive.social.dto.community.JoinCommunityRequest;
@@ -25,6 +26,8 @@ public class CommunityService {
     private final CommunityRepository communityRepository;
     private final UserRepository userRepository;
     private final UserCommunityRepository userCommunityRepository;
+    private final AuthService authService;
+    private final CommunityDAO communityDAO;
 
     // Helper: Get currently logged-in user from JWT
     private User getCurrentUser() {
@@ -37,26 +40,50 @@ public class CommunityService {
     /** -----------------------------------------
      *  Get All Communities with Joined Status
      * ----------------------------------------- */
+//    public List<CommunityResponse> getAllCommunitiesForUser() {
+//        User user = getCurrentUser();
+//
+//        List<Community> communities = communityRepository.findAll();
+//        List<UserCommunity> joined = userCommunityRepository.findByUser(user);
+//
+//        return communities.stream().map(c -> {
+//            Optional<UserCommunity> link = joined.stream()
+//                    .filter(uc -> uc.getCommunity().getId().equals(c.getId()))
+//                    .findFirst();
+//
+//            return CommunityResponse.builder()
+//                    .id(c.getId())
+//                    .name(c.getName())
+//                    .description(c.getDescription())
+//                    .image(c.getImage())
+//                    .joined(link.isPresent())
+//                    .streak(link.map(UserCommunity::getStreak).orElse(null))
+//                    .build();
+//        }).toList();
+//    }
+    
     public List<CommunityResponse> getAllCommunitiesForUser() {
-        User user = getCurrentUser();
 
-        List<Community> communities = communityRepository.findAll();
-        List<UserCommunity> joined = userCommunityRepository.findByUser(user);
+        Long userId = authService.getCurrentUser().getId();
 
-        return communities.stream().map(c -> {
-            Optional<UserCommunity> link = joined.stream()
-                    .filter(uc -> uc.getCommunity().getId().equals(c.getId()))
-                    .findFirst();
+        List<Community> communities = communityDAO.getAllCommunities();
 
-            return CommunityResponse.builder()
-                    .id(c.getId())
-                    .name(c.getName())
-                    .description(c.getDescription())
-                    .image(c.getImage())
-                    .joined(link.isPresent())
-                    .streak(link.map(UserCommunity::getStreak).orElse(null))
-                    .build();
-        }).toList();
+        return communities.stream()
+                .map(c -> {
+
+                    boolean joined = userCommunityRepository.existsByUserIdAndCommunityId(userId, c.getId());
+
+                    int memberCount = communityDAO.getMemberCount(c.getId());
+
+                    return CommunityResponse.builder()
+                            .id(c.getId())
+                            .name(c.getName())
+                            .description(c.getDescription())
+                            .joined(joined)
+                            .memberCount(memberCount)
+                            .build();
+                })
+                .toList();
     }
 
 

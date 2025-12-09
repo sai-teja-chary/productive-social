@@ -12,4 +12,5 @@ public class CommunityResponse {
     private String image;
     private boolean joined;
     private Integer streak; // null if not joined
+    private Integer memberCount;
 }

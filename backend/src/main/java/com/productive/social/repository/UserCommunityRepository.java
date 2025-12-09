@@ -13,4 +13,6 @@ public interface UserCommunityRepository extends JpaRepository<UserCommunity, Lo
     List<UserCommunity> findByUser(User user);
 
     Optional<UserCommunity> findByUserAndCommunity(User user, Community community);
+    
+    boolean existsByUserIdAndCommunityId(Long userId, Long communityId);
 }

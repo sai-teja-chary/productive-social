@@ -6,12 +6,14 @@ import com.productive.social.dto.auth.RegisterRequest;
 import com.productive.social.entity.RefreshToken;
 import com.productive.social.entity.User;
 import com.productive.social.repository.UserRepository;
+import com.productive.social.security.CustomUserDetails;
 import com.productive.social.security.JwtUtil;
 
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -96,6 +98,17 @@ public class AuthService {
     public String logout(String refreshToken) {
         refreshTokenService.deleteToken(refreshToken);
         return "Logged out successfully.";
+    }
+    
+    public User getCurrentUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof CustomUserDetails customUserDetails) {
+            return userRepository.findById(customUserDetails.getUserId())
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+        }
+
+        throw new RuntimeException("No authenticated user");
     }
 
 
