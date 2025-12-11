@@ -23,14 +23,10 @@ public class TaskService {
     private final UserRepository userRepository;
     private final CommunityRepository communityRepository;
     private final UserCommunityRepository userCommunityRepository;
+    private final AuthService authService;
 
 
-    /** Helper: get currently authenticated user */
-    private User getCurrentUser() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-    }
+
 
 
     /** -----------------------------------------
@@ -38,7 +34,7 @@ public class TaskService {
      * ----------------------------------------- */
     public List<TaskResponse> getTasksForCommunity(Long communityId) {
 
-        User user = getCurrentUser();
+        User user = authService.getCurrentUser();
 
         // ensure user is in the community
         Community community = communityRepository.findById(communityId)
@@ -82,7 +78,7 @@ public class TaskService {
     @Transactional
     public String updateTaskProgress(UpdateTaskProgressRequest request) {
 
-        User user = getCurrentUser();
+        User user = authService.getCurrentUser();
 
         // Ensure task exists
         Task task = taskRepository.findById(request.getTaskId())
