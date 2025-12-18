@@ -3,10 +3,11 @@ import "./Navbar.css";
 import { Avatar } from "../ui/Avatar"
 import { NavLink, useNavigate } from "react-router-dom";
 import { Card } from "../ui/Card";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 export const Navbar = () => {
+    const cardRef = useRef()
     const [profileOptionsClick, setProfileOptionsClick] = useState(false)
     const { logout } = useContext(AuthContext)
     const navigate = useNavigate()
@@ -15,6 +16,25 @@ export const Navbar = () => {
         await logout();
         navigate("/login")
     }
+
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (
+                profileOptionsClick &&
+                cardRef.current &&
+                !cardRef.current.contains(e.target)
+            ) {
+                setProfileOptionsClick(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [profileOptionsClick]);
+
     return (
         <div className="sidebar">
 
@@ -52,7 +72,13 @@ export const Navbar = () => {
 
             </nav>
 
-            <div onClick={() => setProfileOptionsClick(!profileOptionsClick)} className="profile-card">
+            <div ref={cardRef}
+                className="profile-card"
+                onClick={(e) => {
+                    e.stopPropagation();
+                    setProfileOptionsClick(v => !v);
+                }}
+            >
                 <Avatar alt="Sai Teja Chary" size={50} />
 
                 <div className="profile-details">
@@ -60,7 +86,10 @@ export const Navbar = () => {
                     <p className="profile-user-name">@saitejachary</p>
                 </div>
 
-                <EllipsisVertical size={20} className="profile-more-icon" />
+                <EllipsisVertical
+                    size={20}
+                    className="profile-more-icon"
+                />
 
                 <div className={`profile-options ${profileOptionsClick ? "open" : ""}`}>
                     <Card variant="options-card">
