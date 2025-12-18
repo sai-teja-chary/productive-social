@@ -14,6 +14,7 @@ public class UserMeResponse {
 
     private Long id;
     private String username;
+    private String name;
     private String email;
     private String profilePicture;
     private String bio;

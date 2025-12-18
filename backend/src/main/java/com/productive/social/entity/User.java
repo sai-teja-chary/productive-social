@@ -30,6 +30,8 @@ public class User {
     private String password; // Hashed password
 
     private String profilePicture;
+    
+    private String name;
 
     private String bio;
 

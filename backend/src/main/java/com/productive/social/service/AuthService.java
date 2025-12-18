@@ -45,6 +45,7 @@ public class AuthService {
         // 3. Create new user with encrypted password
         User user = User.builder()
                 .username(request.getUsername())
+                .name(request.getName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();
@@ -125,6 +126,7 @@ public class AuthService {
         return UserMeResponse.builder()
                 .id(user.getId())
                 .username(user.getUsername())
+                .name(user.getName())
                 .email(user.getEmail())
                 .profilePicture(user.getProfilePicture())
                 .bio(user.getBio())
