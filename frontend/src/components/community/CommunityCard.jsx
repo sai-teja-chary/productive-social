@@ -5,7 +5,7 @@ import { CommunityBanner } from "./CommunityBanner"
 import { CommunityHeader } from "./CommunityHeader"
 import "./CommunityCard.css"
 
-export const CommunityCard = ({ data }) => {
+export const CommunityCard = ({ id, name, description, memberCount, joined, streak }) => {
 
     const navigate = useNavigate()
     const CATEGORY_COLORS = {
@@ -17,15 +17,16 @@ export const CommunityCard = ({ data }) => {
         6: "#14b8a6",
     };
     return (
-        <Card variant="community-card">
-            <CommunityBanner streak={data.streak} bannerColor={CATEGORY_COLORS[data.id]} />
-            <CommunityHeader name={data.name} description={data.description} members={data.memberCount}/>
+        <Card variant="community-card"
+            onClick={() => navigate(`/communities/${id}`)}
+        >
+            <CommunityBanner streak={streak} bannerColor={CATEGORY_COLORS[id]} />
+            <CommunityHeader name={name} description={description} members={memberCount} />
             <div className="community-card-footer">
                 <Button
-                    variant={`community-join-button ${data.joined ? "joined" : ""}`}
-                    onClick={() => navigate(`/communities/${data.id}`)}
+                    variant={`community-join-button ${joined ? "joined" : ""}`}
                 >
-                    {data.joined ? "View" : "Join Community"}
+                    {joined ? "Joined" : "Join"}
                 </Button>
             </div>
         </Card>

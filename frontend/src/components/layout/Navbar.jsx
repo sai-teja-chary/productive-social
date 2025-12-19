@@ -9,7 +9,7 @@ import { AuthContext } from "../../context/AuthContext";
 export const Navbar = () => {
     const cardRef = useRef()
     const [profileOptionsClick, setProfileOptionsClick] = useState(false)
-    const { logout } = useContext(AuthContext)
+    const { user, logout } = useContext(AuthContext)
     const navigate = useNavigate()
 
     const handleLogout = async () => {
@@ -79,11 +79,11 @@ export const Navbar = () => {
                     setProfileOptionsClick(v => !v);
                 }}
             >
-                <Avatar alt="Sai Teja Chary" size={50} />
+                <Avatar alt={user.name} size={50} />
 
                 <div className="profile-details">
-                    <p className="profile-name">Sai Teja Chary</p>
-                    <p className="profile-user-name">@saitejachary</p>
+                    <p className="profile-name">{user.name}</p>
+                    <p className="profile-user-name">{`@${user.username}`}</p>
                 </div>
 
                 <EllipsisVertical

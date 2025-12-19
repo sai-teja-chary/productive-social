@@ -18,7 +18,9 @@
     height: 100%;
 }
 
-.community-stats{
+.community-stats, .community-details{
     height: 100%;
+    display: flex;
+    gap: 8px;
 }
 

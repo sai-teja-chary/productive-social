@@ -1,3 +1,21 @@
+.sso-button{
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  width: 400px;
+  height:60px;
+  background-color: transparent;
+  color: var(--gray-700);
+  border: 1px solid var(--gray-300);
+  font-weight: 600;
+  font-size: medium;
+  padding-left: 60px;
+}
+
+.sso-button:hover {
+  background-color: var(--gray-100);
+}
+
 .button-container{
     position: relative;
     margin: 5px;
@@ -5,6 +23,6 @@
 
 .button-container img{
     position: absolute;
-    width: 100px;
-    bottom: 0;
+    left: 20px;
 }
+

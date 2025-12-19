@@ -72,8 +72,8 @@ export const loginUser = (identifier, password) =>
 export const registerUser = (data) =>
   api.post("/auth/register", data);
 
-export const getProfile = () =>
-  api.get("/profile");
+export const getUser = () =>
+  api.get("/auth/me");
 
 export const logoutUser = () =>
   api.post("/auth/logout");

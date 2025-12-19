@@ -6,10 +6,11 @@ import { CommunityContext } from "../../context/CommunityContext"
 import { PageHeader } from "../../components/layout/PageHeader"
 import { Grid, List } from "lucide-react"
 import "./Communities.css"
+import { CommunityCardSkeleton } from "../../components/community/CommunityCardSkeleton"
 
 
 export const Communities = () => {
-    const { communities } = useContext(CommunityContext);
+    const { communities, loading } = useContext(CommunityContext);
     const [view, setView] = useState("grid")
     return (
         <PageContainer>
@@ -29,11 +30,21 @@ export const Communities = () => {
                     />
                 </div>
                 <div className="community-grid">
-                    {communities.map(community => (
-                        <CommunityCard key={community.id} data={community} view={view} />
-                    ))
-
-                    }
+                    {loading
+                        ? Array.from({ length: 6 }).map((_, i) => (
+                            <CommunityCardSkeleton key={i} />
+                        ))
+                        : communities.map(c => (
+                            <CommunityCard
+                                key={c.id}
+                                id={c.id}
+                                name={c.name}
+                                description={c.description}
+                                memberCount={c.memberCount}
+                                joined={c.joined}
+                                streak={c.streak}
+                            />
+                        ))}
                 </div>
             </div>
         </PageContainer >

@@ -1,4 +1,5 @@
 import { Button } from "../../components/ui/Button"
+import "./GoogleSignButton.css"
 
 export const GoogleSignButton = ({type}) =>{
     return(

@@ -33,3 +33,20 @@
     justify-content: center;
     align-items: center;
 }
+
+.community-badge {
+  background: var(--color-purple);
+  color: var(--gray-100);
+  padding: 2px 10px;
+
+}
+
+.streak-badge{
+  background-color: #fae8d0;
+  color: #e28e4a;
+  padding: 2px 10px;
+}
+
+.streak-badge img{
+    width: 16px;
+}

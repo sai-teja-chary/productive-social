@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-import { getProfile, loginUser, logoutUser, registerUser } from "../lib/api";
+import { getUser, loginUser, logoutUser, registerUser } from "../lib/api";
 
 export const AuthContext = createContext();
 
@@ -14,8 +14,9 @@ export const AuthProvider = ({ children }) => {
 
     const fetchUser = async () => {
         try {
-            const res = await getProfile();
+            const res = await getUser();
             setUser(res.data);
+            console.log(res.data)
         } catch {
             setUser(null);
         } finally {

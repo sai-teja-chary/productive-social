@@ -4,6 +4,7 @@ import { PostBody } from "./PostBody"
 import { PostFooter } from "./PostFooter"
 import { CommentModal } from "./CommentModal"
 import { useState } from "react"
+import "./PostCard.css"
 
 
 export const PostCard = ({ post }) => {

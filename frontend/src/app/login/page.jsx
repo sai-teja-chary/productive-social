@@ -15,6 +15,7 @@ import { useContext, useEffect, useState } from "react"
 import { usePasswordToggle } from "../../hooks/usePasswordToggle"
 import { AuthContext } from "../../context/AuthContext"
 
+
 export const Login = () => {
 
     const navigate = useNavigate();
@@ -98,7 +99,7 @@ export const Login = () => {
                         </p>
 
                         <AuthActionsRow>
-                            <Button type="submit" variant="login-button">Login</Button>
+                            <Button type="submit" variant="auth-button">Login</Button>
                         </AuthActionsRow>
 
                         <AuthFooterSwitch

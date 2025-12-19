@@ -13,7 +13,6 @@ export const CommunityHeader = ({ name, description, members}) => {
                 <Badge variant="transparent-badge" label={`${150} posts`} icon={<TrendingUp size={15} />} />
             </div>
             <div className="community-details">
-                <Badge label={"Intermediate"} />
                 <Badge label={"100 days"} />
             </div>
         </div>

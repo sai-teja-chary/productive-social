@@ -16,24 +16,7 @@
   box-shadow: var(--shadow-card);
 }
 
-/* -------------------------------
-   VARIANTS
--------------------------------- */
 
-/* Post Card, Community Card */
-.post-card{
-  width: 100%;
-  height: auto;
-}
-
-.community-card{
-  position: relative;
-  padding-top: 100px;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
 /* Profile Stats Card */
 .stats-card {
   text-align: center;

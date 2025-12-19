@@ -140,7 +140,7 @@ export const Register = () => {
                         />
 
                         <AuthActionsRow>
-                            <Button type="submit" variant="login-button">Sign up</Button>
+                            <Button type="submit" variant="auth-button">Sign up</Button>
                         </AuthActionsRow>
 
                         <AuthFooterSwitch

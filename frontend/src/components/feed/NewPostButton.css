@@ -1,3 +1,17 @@
+
+.create-post {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-purple);
+  color: white;
+  font-weight: 600;
+}
+
+.create-post:hover {
+  background-color: #682fb6;
+}
+
 .plus-icon{
     width: 25px;
 }
