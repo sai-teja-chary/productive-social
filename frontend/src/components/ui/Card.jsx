@@ -2,11 +2,12 @@ import "./Card.css";
 
 export const Card = ({ 
   children, 
-  variant = "default-card", 
+  variant,
+  className,
   ...rest 
 }) => {
   return (
-    <div className={`card ${variant}`} {...rest}>
+    <div className={`card ${variant} ${className}`} {...rest}>
       {children}
     </div>
   );

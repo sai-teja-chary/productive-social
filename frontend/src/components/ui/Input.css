@@ -7,14 +7,13 @@
 
 /* Base Input */
 .input {
-  width: auto;
+  width: 100%;
   padding: 12px;
   padding-right: 50px;
   font-size: 15px;
   border: 1px solid var(--gray-200);
   border-radius: var(--radius-sm);
   font-family: var(--font-primary);
-  background-color: white;
   transition: border var(--fast), box-shadow var(--fast);
   margin: 5px;
 }
@@ -34,20 +33,6 @@
   cursor: pointer;
 }
 
-/* Variants Below */
-
-/* Login Input Styling */
-.login-input {
-  background-color: var(--gray-100);
-  border: none;
-  width: 400px;
-  height: 60px;
-  margin: 5px;
-}
-
-.login-input:focus {
-  border-color: var(--color-blue);
-}
 
 /* Search Input */
 .search-input {

@@ -5,8 +5,8 @@ export const Button = ({
     children,
     onClick,
     type = "button",
-    variant = "default",
-    className ="",
+    variant,
+    className,
     disabled = false,
     style
 }) =>{

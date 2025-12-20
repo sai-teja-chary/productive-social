@@ -1,19 +1,8 @@
-import AuthActionsRow from "../../components/auth/AuthActionsRow"
-import { AuthFooterSwitch } from "../../components/auth/AuthFooterSwitch"
-import { AuthLayout } from "../../components/auth/AuthLayout"
-import { AuthLeftPanel } from "../../components/auth/AuthLeftPanel"
-import { AuthLogo } from "../../components/auth/AuthLogo"
-import { AuthRightPanel } from "../../components/auth/AuthRightPanel"
-import { AuthTitle } from "../../components/auth/AuthTitle"
-import { GoogleSignButton } from "../../components/auth/GoogleSignButton"
-import { OrDivider } from "../../components/auth/OrDivider"
-import { Button } from "../../components/ui/Button"
-import { Input } from "../../components/ui/Input"
-import loginHeader from "../../assets/loginheader.svg"
 import { useContext, useEffect, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { usePasswordToggle } from "../../hooks/usePasswordToggle"
 import { AuthContext } from "../../context/AuthContext"
+import { RegisterForm } from "../../components/auth/RegisterForm"
 
 
 export const Register = () => {
@@ -73,84 +62,12 @@ export const Register = () => {
     };
 
     return (
-        <AuthLayout
-            left={
-                <AuthLeftPanel
-                    imageSrc={loginHeader}
-                />
-            }
-            right={
-                <AuthRightPanel>
-                    <form onSubmit={handleRegister} className="auth-form">
-
-                        <AuthLogo />
-
-                        <AuthTitle title="Register" />
-
-                        <GoogleSignButton />
-
-                        <OrDivider />
-
-                        <Input
-                            name="name"
-                            variant="login-input"
-                            placeholder="Name"
-                            type="text"
-                            value={form.name}
-                            onChange={handleChange}
-                        />
-
-                        <Input
-                            name="username"
-                            variant="login-input"
-                            placeholder="Username"
-                            type="text"
-                            value={form.username}
-                            onChange={handleChange}
-                        />
-
-                        <Input
-                            name="email"
-                            variant="login-input"
-                            placeholder="Email"
-                            type="email"
-                            value={form.email}
-                            onChange={handleChange}
-                        />
-
-                        <Input
-                            name="password"
-                            variant="login-input"
-                            placeholder="Password"
-                            type={passwordToggle.type}
-                            value={form.password}
-                            onChange={handleChange}
-                            icon={passwordToggle.icon}
-                            onClick={passwordToggle.toggle}
-                        />
-                        <Input
-                            name="confirmPassword"
-                            variant="login-input"
-                            placeholder="Confirm password"
-                            type={confirmPasswordToggle.type}
-                            value={form.confirmPassword}
-                            onChange={handleChange}
-                            icon={confirmPasswordToggle.icon}
-                            onClick={confirmPasswordToggle.toggle}
-                        />
-
-                        <AuthActionsRow>
-                            <Button type="submit" variant="auth-button">Sign up</Button>
-                        </AuthActionsRow>
-
-                        <AuthFooterSwitch
-                            text="Already have an account?"
-                            linkText="Sign in"
-                            linkTo="/login" />
-                    </form>
-                </AuthRightPanel>
-            }
-
-        />
+     <RegisterForm 
+        form={form}
+        onSubmit={handleRegister}
+        onChange={handleChange}
+        passwordToggle={passwordToggle}
+        confirmPasswordToggle={confirmPasswordToggle}
+     />
     )
 }

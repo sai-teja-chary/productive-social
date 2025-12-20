@@ -1,6 +1,6 @@
 import "./Badge.css";
 
-export const Badge = ({ label, variant = "default-badge", icon }) => {
+export const Badge = ({ label, variant, icon }) => {
   return <span className={`badge ${variant}`}>
     {typeof icon === "string" ? (
       <img src={icon} alt="icon" className="icon" />

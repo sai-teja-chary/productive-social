@@ -4,8 +4,12 @@ import { Card } from "../ui/Card"
 import { CommunityBanner } from "./CommunityBanner"
 import { CommunityHeader } from "./CommunityHeader"
 import "./CommunityCard.css"
+import { useContext } from "react"
+import { CommunityContext } from "../../context/CommunityContext"
 
 export const CommunityCard = ({ id, name, description, memberCount, joined, streak }) => {
+
+    const { toggleJoinCommunity } = useContext(CommunityContext)
 
     const navigate = useNavigate()
     const CATEGORY_COLORS = {
@@ -24,7 +28,12 @@ export const CommunityCard = ({ id, name, description, memberCount, joined, stre
             <CommunityHeader name={name} description={description} members={memberCount} />
             <div className="community-card-footer">
                 <Button
-                    variant={`community-join-button ${joined ? "joined" : ""}`}
+                    className={`community-join-button ${joined ? "joined" : ""}`}
+                    onClick={(e) =>{
+                        e.stopPropagation();
+                        console.log(`${id}: joined`)
+                        toggleJoinCommunity(id)
+                    }}
                 >
                     {joined ? "Joined" : "Join"}
                 </Button>

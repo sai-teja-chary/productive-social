@@ -1,19 +1,8 @@
-import AuthActionsRow from "../../components/auth/AuthActionsRow"
-import { AuthFooterSwitch } from "../../components/auth/AuthFooterSwitch"
-import { AuthLayout } from "../../components/auth/AuthLayout"
-import { AuthLeftPanel } from "../../components/auth/AuthLeftPanel"
-import { AuthLogo } from "../../components/auth/AuthLogo"
-import { AuthRightPanel } from "../../components/auth/AuthRightPanel"
-import { AuthTitle } from "../../components/auth/AuthTitle"
-import { GoogleSignButton } from "../../components/auth/GoogleSignButton"
-import { OrDivider } from "../../components/auth/OrDivider"
-import { Button } from "../../components/ui/Button"
-import { Input } from "../../components/ui/Input"
-import loginHeader from "../../assets/loginheader.svg"
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { useContext, useEffect, useState } from "react"
 import { usePasswordToggle } from "../../hooks/usePasswordToggle"
 import { AuthContext } from "../../context/AuthContext"
+import { LoginForm } from "../../components/auth/LoginForm"
 
 
 export const Login = () => {
@@ -45,8 +34,6 @@ export const Login = () => {
 
     const handleLogin = async (e) =>{
         e.preventDefault()
-        console.log(form)
-
         try {
             await login(form.identifier, form.password);
             alert("Login successful!")
@@ -56,59 +43,11 @@ export const Login = () => {
         }
     }
     return (
-        <AuthLayout
-            
-            left={
-                < AuthLeftPanel
-                    imageSrc={loginHeader}
-                />
-            }
-            right={
-                <AuthRightPanel>
-                    <form onSubmit={handleLogin} className="auth-form">
-                        <AuthLogo />
-
-                        <AuthTitle title="Login" />
-
-                        <GoogleSignButton type={"login"} />
-
-                        <OrDivider />
-
-                        <Input 
-                        name="identifier"
-                        variant="login-input" 
-                        placeholder="Email or username" 
-                        type="text"
-                        value={form.identifier}
-                        onChange={handleChange} 
-                        />
-
-                        <Input 
-                        name="password"
-                        variant="login-input" 
-                        placeholder="Password" 
-                        type={passwordToggle.type}
-                        icon={passwordToggle.icon}
-                        onClick={passwordToggle.toggle}
-                        value={form.password}
-                        onChange={handleChange} 
-                        />
-
-                        <p className="forgot-password">
-                            <Link to="/forgotpassword">Forgot password</Link>
-                        </p>
-
-                        <AuthActionsRow>
-                            <Button type="submit" variant="auth-button">Login</Button>
-                        </AuthActionsRow>
-
-                        <AuthFooterSwitch
-                            text="Don't have an account?"
-                            linkText="Sign up"
-                            linkTo="/register" />
-                    </form>
-                </AuthRightPanel >
-            }
-        />
+        <LoginForm 
+            form={form} 
+            onSubmit={handleLogin}
+            onChange={handleChange}
+            passwordToggle={passwordToggle}
+            />
     )
 }

@@ -7,7 +7,7 @@ export const Input = ({
     value,
     onChange,
     onClick,
-    variant = "default-input",
+    variant,
     icon = "",
     ...rest
 }) => {

@@ -1,0 +1,15 @@
+.community-grid{
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: stretch;
+    justify-content: center;
+    gap: 30px;
+}
+
+.community-list{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+}

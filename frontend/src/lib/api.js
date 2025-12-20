@@ -30,7 +30,10 @@ api.interceptors.response.use(
     const url = original.url.replace(api.defaults.baseURL, "");
 
     // 🚫 NEVER refresh auth endpoints
-    if (url.startsWith("/auth")) {
+    if (url.startsWith("/auth/login") ||
+        url.startsWith("/auth/logout") ||
+        url.startsWith("/auth/register") ||
+        url.startsWith("/auth/refresh")) {
       return Promise.reject(error);
     }
 
@@ -57,7 +60,7 @@ api.interceptors.response.use(
       } catch (refreshErr) {
         isRefreshing = false;
         queue = [];
-        window.location.href = "/login";
+        window.location.replace("/login")
         return Promise.reject(refreshErr);
       }
     }
@@ -80,6 +83,12 @@ export const logoutUser = () =>
 
 export const getCommunities = () =>
   api.get("/communities")
+
+export const joinCommunity = (communityId) =>
+  api.post("/communities/join", {communityId})
+
+export const leaveCommunity = (communityId) =>
+  api.post(`/communities/${communityId}/leave`)
 // export const getPosts = () =>
 //   api.get("/api/posts");
 

@@ -133,3 +133,13 @@
   cursor: pointer;
   background-color: var(--gray-200);
 }
+
+.options-card{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 0;
+  padding: 8px;
+}

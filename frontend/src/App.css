@@ -18,3 +18,15 @@
 .auth-button:hover {
     background-color: var(--hover-purple)
 }
+
+.auth-input {
+  background-color: var(--gray-100);
+  border: none;
+  width: 400px;
+  height: 60px;
+  margin: 5px;
+}
+
+.auth-input:focus {
+  border-color: var(--color-blue);
+}
