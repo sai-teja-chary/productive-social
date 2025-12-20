@@ -6,17 +6,35 @@
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  box-shadow: var(--shadow-card);
+  
 }
 
+.community-card.list{
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  height: auto;
+  padding-top: 0;
+}
 .community-card-footer {
   margin-top: auto; /* ✅ this is the key */
   padding: 12px;
+}
+
+.community-card-footer.list{
+  margin-top: 0;
+  margin-left: auto;
+  margin: 10px 10px 10px auto;
+  align-items: center;
+
 }
 
 .community-join-button{
   display: flex;
   justify-content: center;
   align-items: center;
+  min-width: 120px;
   width: 100%;
   background-color: var(--color-blue);
   color: var(--gray-100);

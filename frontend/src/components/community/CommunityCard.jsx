@@ -7,7 +7,7 @@ import "./CommunityCard.css"
 import { useContext } from "react"
 import { CommunityContext } from "../../context/CommunityContext"
 
-export const CommunityCard = ({ id, name, description, memberCount, joined, streak }) => {
+export const CommunityCard = ({ id, name, description, memberCount, joined, streak, view }) => {
 
     const { toggleJoinCommunity } = useContext(CommunityContext)
 
@@ -21,12 +21,12 @@ export const CommunityCard = ({ id, name, description, memberCount, joined, stre
         6: "#14b8a6",
     };
     return (
-        <Card variant="community-card"
+        <Card className={`community-card ${view === "list" ? "list" : ""}`}
             onClick={() => navigate(`/communities/${id}`)}
         >
-            <CommunityBanner streak={streak} bannerColor={CATEGORY_COLORS[id]} />
-            <CommunityHeader name={name} description={description} members={memberCount} />
-            <div className="community-card-footer">
+            <CommunityBanner streak={streak} bannerColor={CATEGORY_COLORS[id]} view={view}/>
+            <CommunityHeader name={name} description={description} members={memberCount} view={view}/>
+            <div className={`community-card-footer ${view === "list" ? "list" : ""}`}>
                 <Button
                     className={`community-join-button ${joined ? "joined" : ""}`}
                     onClick={(e) =>{

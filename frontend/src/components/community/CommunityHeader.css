@@ -3,7 +3,12 @@
     flex-direction: column;
     gap: 10px;
     margin: 10px;
+    padding: 10px;
     height: 100%;
+}
+
+.community-header.list{
+    gap: 2px;
 }
 
 .community-title{
@@ -18,9 +23,9 @@
     height: 100%;
 }
 
-.community-stats, .community-details{
+.community-stats{
     height: 100%;
     display: flex;
-    gap: 8px;
+    gap: 5px;
 }
 

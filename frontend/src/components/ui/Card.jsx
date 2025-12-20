@@ -2,7 +2,7 @@ import "./Card.css";
 
 export const Card = ({ 
   children, 
-  variant,
+  variant = "default-card",
   className,
   ...rest 
 }) => {

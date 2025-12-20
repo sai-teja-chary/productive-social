@@ -17,6 +17,7 @@
 .transparent-badge{
   background-color: transparent;
   color: var(--gray-500);
+  padding: 0;
 }
 
 .white-badge{

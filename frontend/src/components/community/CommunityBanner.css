@@ -11,6 +11,11 @@
     border-top-right-radius: var(--radius-lg);
 }
 
+.community-banner-list{
+    margin: 20px;
+    border-radius: var(--radius-lg);
+}
+
 .community-banner-icon{
     width: 50px;
     margin: 20px;
