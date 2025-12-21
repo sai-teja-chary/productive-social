@@ -1,6 +1,6 @@
 import { PageContainer } from "../../components/layout/PageContainer"
 import { Navbar } from "../../components/layout/Navbar"
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { CommunityContext } from "../../context/CommunityContext"
 import { PageHeader } from "../../components/layout/PageHeader"
 import { CommunityViewToggle } from "../../components/community/CommunityViewToggle"
@@ -9,7 +9,12 @@ import { CommunityList } from "../../components/community/CommunityList"
 
 export const Communities = () => {
     const { communities, loading } = useContext(CommunityContext);
-    const [view, setView] = useState("grid")
+    const [view, setView] = useState(()=> localStorage.getItem("communityView") || "grid")
+
+    useEffect(() => {
+      localStorage.setItem("communityView", view)
+    }, [view])
+    
     
     return (
         <PageContainer>

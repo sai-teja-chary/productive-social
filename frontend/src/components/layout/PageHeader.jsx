@@ -1,8 +1,8 @@
 import "./PageHeader.css"
 
-export const PageHeader = ({ title, description, children }) => {
+export const PageHeader = ({ title, description, children, className }) => {
     return (
-            <div className="global-header">
+            <div className={`global-header ${className}`}>
                 <div className="title">
                     <h1>{title}</h1>
                     <p>{description}</p>

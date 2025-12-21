@@ -24,12 +24,12 @@ export const CommunityCard = ({ id, name, description, memberCount, joined, stre
         <Card className={`community-card ${view === "list" ? "list" : ""}`}
             onClick={() => navigate(`/communities/${id}`)}
         >
-            <CommunityBanner streak={streak} bannerColor={CATEGORY_COLORS[id]} view={view}/>
-            <CommunityHeader name={name} description={description} members={memberCount} view={view}/>
+            <CommunityBanner streak={streak} bannerColor={CATEGORY_COLORS[id]} view={view} />
+            <CommunityHeader name={name} description={description} members={memberCount} streak={streak} view={view} />
             <div className={`community-card-footer ${view === "list" ? "list" : ""}`}>
                 <Button
                     className={`community-join-button ${joined ? "joined" : ""}`}
-                    onClick={(e) =>{
+                    onClick={(e) => {
                         e.stopPropagation();
                         console.log(`${id}: joined`)
                         toggleJoinCommunity(id)

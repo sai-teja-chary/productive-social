@@ -12,7 +12,7 @@ export const PostCard = ({ post }) => {
     const [showComments, setShowComments] = useState(false);
 
     return (
-        <Card variant="post-card">
+        <Card className="post-card">
             <PostHeader
                 user={"Sai Teja Chary"}
                 createdAt={"2h ago"}

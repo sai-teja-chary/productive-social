@@ -4,34 +4,37 @@ import "./CommunityCard.css";
 import "./CommunityHeader.css";
 import "./CommunityBanner.css";
 
-export const CommunityCardSkeleton = () => {
+export const CommunityCardSkeleton = ({ view }) => {
     return (
-        <Card variant="community-card">
+        <Card className={`community-card ${view === "list" ? "list" : ""}`}>
             {/* Banner */}
-            <div className="community-banner">
-                <Skeleton width="40px" height="40px" circle />
+            {view === "grid" ? <div className="community-banner">
+                <div className="community-banner-icon">
+
+                    <Skeleton width="50px" height="50px" circle />
+                </div>
                 <Skeleton width="60px" height="20px" />
             </div>
+                : <div className="community-banner-list">
+                    <Skeleton width="70px" height="70px" circle />
+                </div>}
 
             {/* Header */}
-            <div className="community-header">
+            <div className={`community-header ${view === "list" ? "list" : ""}`}>
                 <Skeleton width="60%" height="20px" />
                 <Skeleton width="90%" height="14px" />
 
                 <div className="community-stats">
                     <Skeleton width="70px" height="20px" />
                     <Skeleton width="70px" height="20px" />
-
-                </div>
-
-                <div className="community-details">
                     <Skeleton width="100px" height="16px" />
+
                 </div>
             </div>
 
             {/* Footer */}
-            <div className="community-card-footer">
-                <Skeleton width="100%" height="44px" />
+            <div className={`community-card-footer ${view === "list" ? "list" : ""}`}>
+                <Skeleton width={view === "grid" ? "100%" : "120px"} height="44px" />
             </div>
         </Card>
     );

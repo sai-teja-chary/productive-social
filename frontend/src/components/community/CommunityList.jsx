@@ -10,7 +10,7 @@ export const CommunityList = ({communities, loading, view}) => {
         <div className={containerClass}>
             {loading
                 ? Array.from({ length: 6 }).map((_, i) => (
-                    <CommunityCardSkeleton key={i} />
+                    <CommunityCardSkeleton key={i} view={view}/>
                 ))
                 : communities.map(c => (
                     <CommunityCard
@@ -23,7 +23,8 @@ export const CommunityList = ({communities, loading, view}) => {
                         streak={c.streak}
                         view={view}
                     />
-                ))}
+                ))
+                }
         </div>
     )
 }
