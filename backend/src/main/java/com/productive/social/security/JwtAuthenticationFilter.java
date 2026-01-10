@@ -26,22 +26,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain)
+            HttpServletResponse response,
+            FilterChain filterChain)
             throws ServletException, IOException {
 
         // Skip authentication routes
-    	String path = request.getServletPath();
+        String path = request.getServletPath();
 
-    	if (
-    	    path.equals("/auth/login") ||
-    	    path.equals("/auth/register") ||
-    	    path.equals("/auth/refresh") ||
-    	    path.equals("/auth/logout")
-    	) {
-    	    filterChain.doFilter(request, response);
-    	    return;
-    	}
+        if (path.equals("/auth/login") ||
+                path.equals("/auth/register") ||
+                path.equals("/auth/refresh") ||
+                path.equals("/auth/logout") ||
+                path.startsWith("/uploads/")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         var accessTokenOpt = CookieUtil.getCookieValue(request, CookieUtil.ACCESS_TOKEN_COOKIE);
         var refreshTokenOpt = CookieUtil.getCookieValue(request, CookieUtil.REFRESH_TOKEN_COOKIE);
@@ -68,16 +67,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             var userDetails = customUserDetailsService.loadUserByUsername(username);
 
             if (jwtUtil.validateToken(jwt, userDetails)) {
-                UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(
-                                userDetails,
-                                null,
-                                userDetails.getAuthorities()
-                        );
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                        userDetails,
+                        null,
+                        userDetails.getAuthorities());
 
                 authToken.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request)
-                );
+                        new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             } else {
@@ -89,6 +85,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
-
 
 }

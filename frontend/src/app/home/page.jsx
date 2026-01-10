@@ -6,12 +6,12 @@ import { PageHeader } from "../../components/layout/PageHeader"
 import "../../App.css"
 import { useContext } from "react"
 import { PostContext } from "../../context/PostContext"
+import { PostCardSkeleton } from "../../components/feed/PotCardSkeleton"
 
 export const Home = () => {
-    const { globalPosts, loading } = useContext(PostContext)
+    const { globalPosts, loading,} = useContext(PostContext)
 
-
-    if(loading) return <div>Loading.....</div>
+    if (loading) return <div>Loading.....</div>
 
     return (
         <PageContainer>
@@ -19,9 +19,15 @@ export const Home = () => {
             <PageHeader title="Global Feed" description="Join challenge-based communities and stay accountable"
             ><NewPostButton /></PageHeader>
             <div className="main">
-                {globalPosts.map(post => (
-                    <PostCard key={post.postId} post={post} />
-                ))}
+                {loading
+                    ? Array.from({ length: 3 }).map((_, i) => (
+                        <PostCardSkeleton key={i} />
+                    ))
+                    : globalPosts.map(post => (
+                        <PostCard key={post.postId} post={post} />
+                    ))
+                }
+
             </div>
         </PageContainer>
     )

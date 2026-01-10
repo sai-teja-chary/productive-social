@@ -6,13 +6,13 @@ import { joinCommunity, leaveCommunity } from "../lib/api"
 export const CommunityContext = createContext()
 
 export const CommunityProvider = ({ children }) => {
-    const {user} = useContext(AuthContext)
+    const { user } = useContext(AuthContext)
     const [communities, setCommunities] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        if(!user){
+        if (!user) {
             setCommunities([]);
             return;
         }
@@ -22,6 +22,7 @@ export const CommunityProvider = ({ children }) => {
     const fetchCommunities = async () => {
         try {
             setLoading(true)
+            setError(null)
             const res = await getCommunities()
             const sorted = [...res.data].sort((a, b) => {
                 if (a.joined !== b.joined) {
@@ -34,38 +35,44 @@ export const CommunityProvider = ({ children }) => {
         } catch (error) {
             console.error(error)
             setError(error)
-        }finally{
+        } finally {
             setLoading(false)
         }
     }
 
-    const toggleJoinCommunity = async (communityId) =>{
-        setCommunities(prev =>
+
+    const toggleJoinCommunity = async (communityId) => {
+        const prev = [...communities];
+        const community = communities.find(c => c.id === communityId);
+
+        if (!community) return;
+
+        const nextJoined = !community.joined;
+
+        try {
+           setCommunities(prev =>
             prev.map(c =>
                 c.id === communityId
-                ? { ...c, joined: !c.joined}
-                : c
+                    ? {
+                        ...c,
+                        joined: nextJoined,
+                        memberCount: c.memberCount + (nextJoined ? 1 : -1)
+                    }
+                    : c
             )
         );
 
-        try {
-            const community = communities.find(c => c.id === communityId);
-            if(!community.joined){
-                await joinCommunity(communityId);
-            }else{
-                await leaveCommunity(communityId);
-            }
+            community.joined
+                ? await leaveCommunity(communityId)
+                : await joinCommunity(communityId);
+
         } catch (error) {
-            setCommunities(prev =>
-                prev.map(c=>
-                    c.id === communityId
-                    ? { ...c, joined: !c.joined}
-                    : c
-                )
-            );
             console.error(error);
+            setCommunities(prev); // rollback
         }
-    }
+    };
+
+
 
     return (
         <CommunityContext.Provider value={{ communities, loading, error, fetchCommunities, toggleJoinCommunity }}>

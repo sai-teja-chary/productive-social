@@ -18,5 +18,6 @@ export const PostHeader = ({user, createdAt, community, streak}) => {
                 </div>
             </div>
         </div>
+        
     )
 }

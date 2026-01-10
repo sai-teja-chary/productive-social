@@ -76,9 +76,17 @@ export const PostProvider = ({ children }) => {
         }
     }
 
+    const handleCommentAdded = (postId) => {
+            setGlobalPosts(prev =>
+                prev.map(p =>
+                    p.postId === postId
+                        ? { ...p, commentsCount: p.commentsCount + 1 }
+                        : p
+                )
+            );
+        };
 
-
-    return <PostContext.Provider value={{ globalPosts, loading, error, likePost, unlikePost, fetchGlobalPosts }}>
+    return <PostContext.Provider value={{ globalPosts, loading, error, likePost, unlikePost, fetchGlobalPosts, handleCommentAdded }}>
         {children}
     </PostContext.Provider>
 }

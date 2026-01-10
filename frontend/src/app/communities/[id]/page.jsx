@@ -1,34 +1,39 @@
-import { useEffect, useState } from "react"
-import { CommunityBanner } from "../../../components/community/CommunityBanner"
+import { useContext, useEffect, useState } from "react"
 import { CommunityCard } from "../../../components/community/CommunityCard"
-import { CommunityHeader } from "../../../components/community/CommunityHeader"
 import { Navbar } from "../../../components/layout/Navbar"
 import { PageContainer } from "../../../components/layout/PageContainer"
 import { PageHeader } from "../../../components/layout/PageHeader"
 import { Tabs } from "../../../components/ui/Tabs"
 import "../Communities.css"
-import { getCommunity, getCommunityPosts, likePosts, unlikePosts } from "../../../lib/api"
+import { getCommunity, getCommunityPosts, joinCommunity, leaveCommunity, likePosts, unlikePosts } from "../../../lib/api"
 import { useNavigate, useParams } from "react-router-dom"
 import backIcon from "../../../assets/icons/backarrow.svg"
 import { PostCard } from "../../../components/feed/PostCard"
+import { PostCardSkeleton } from "../../../components/feed/PotCardSkeleton"
+import { CommunityContext } from "../../../context/CommunityContext"
 
 export const CommunityPage = () => {
-    const [community, setCommunity] = useState(null)
+    const { communities, loading, fetchCommunities, toggleJoinCommunity } = useContext(CommunityContext);
     const [posts, setPosts] = useState([])
     const { id } = useParams()
-    const [loading, setLoading] = useState(true)
+    const [communityLoading, setCommunityLoading] = useState(true);
+    const [postsLoading, setPostsLoading] = useState(false);
+    const [postsFetched, setPostsFetched] = useState(false);
     const [error, setError] = useState(null)
     const [active, setActive] = useState("Feed")
     const tabs = ["Feed", "Syllabus", "Notes"]
     const navigate = useNavigate()
+    const community = communities.find(c=> c.id === Number(id))
 
 
     useEffect(() => {
-        fetchCommunity();
-    }, [id]);
+        if(communities.length === 0 && !loading ){
+            fetchCommunities()
+        }
+    }, [communities.length, loading]);
 
     useEffect(() => {
-        if (active === "Feed" && posts.length === 0) {
+        if (active === "Feed" && !postsFetched) {
             fetchCommunityPosts()
         }
 
@@ -41,37 +46,20 @@ export const CommunityPage = () => {
         // }
     }, [active, id])
 
-
-    const fetchCommunity = async () => {
-        try {
-            setLoading(true)
-            const response = await getCommunity(id)
-            // console.log(response.data)
-            setCommunity(response.data)
-        } finally {
-            setLoading(false)
-        }
-    }
-    const handleToggleJoin = () => {
-        setCommunity(prev => ({
-            ...prev,
-            joined: !prev.joined,
-        }));
-    };
-
     const fetchCommunityPosts = async () => {
         try {
-            setLoading(true)
-            const response = await getCommunityPosts(id)
-            console.log("posts:", response.data)
-            setPosts(response.data)
+            setPostsLoading(true);
+            setError(null);
+            const response = await getCommunityPosts(id);
+            setPosts(response.data);
+            setPostsFetched(true)
         } catch (error) {
-            console.error(error)
-            setError(error)
+            console.error(error);
+            setError(error);
         } finally {
-            setLoading(false)
+            setPostsLoading(false);
         }
-    }
+    };
 
     const handleLike = async (postId) => {
         setPosts(prev =>
@@ -113,10 +101,22 @@ export const CommunityPage = () => {
         }
     };
 
+    const handleCommentAdded = (postId) => {
+        setPosts(prev =>
+            prev.map(p =>
+                p.postId === postId
+                    ? { ...p, commentsCount: p.commentsCount + 1 }
+                    : p
+            )
+        );
+    };
+
 
 
 
     if (loading || !community) return <div>Loading.......</div>
+
+
     return (
         <PageContainer>
             <Navbar />
@@ -128,10 +128,10 @@ export const CommunityPage = () => {
                     view="list"
                     name={community.name}
                     description={community.description}
-                    memberCount={community.totalMembers}
+                    memberCount={community.memberCount}
                     joined={community.joined}
                     clickable={false}
-                    onToggleJoin={handleToggleJoin}
+                    onToggleJoin={toggleJoinCommunity}
 
                 />
                 <div className="community-tabs">
@@ -143,14 +143,21 @@ export const CommunityPage = () => {
                 </div>
             </PageHeader>
             <div className="main">
-                {active === "Feed" && posts.map(post => (
-                    <PostCard
-                        key={post.postId}
-                        post={post}
-                        onLike={handleLike}
-                        onUnlike={handleUnlike}
-                    />
-                ))}
+                {active === "Feed" && (
+                    postsLoading
+                        ? Array.from({ length: 3 }).map((_, i) => (
+                            <PostCardSkeleton key={i} />
+                        ))
+                        : posts.map(post => (
+                            <PostCard
+                                key={post.postId}
+                                post={post}
+                                onLike={handleLike}
+                                onUnlike={handleUnlike}
+                                onCommentAdded={handleCommentAdded}
+                            />
+                        ))
+                )}
             </div>
         </PageContainer>
     )

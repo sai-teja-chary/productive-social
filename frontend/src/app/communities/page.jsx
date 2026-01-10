@@ -8,7 +8,7 @@ import { CommunityList } from "../../components/community/CommunityList"
 
 
 export const Communities = () => {
-    const { communities, loading } = useContext(CommunityContext);
+    const { communities, loading, toggleJoinCommunity } = useContext(CommunityContext);
     const [view, setView] = useState(()=> localStorage.getItem("communityView") || "grid")
 
     useEffect(() => {
@@ -30,6 +30,7 @@ export const Communities = () => {
                     communities={communities}
                     loading={loading}
                     view={view}
+                    onToggleJoin={toggleJoinCommunity}
                 />
             </div>
         </PageContainer >

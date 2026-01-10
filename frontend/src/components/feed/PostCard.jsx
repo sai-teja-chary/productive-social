@@ -7,7 +7,7 @@ import { useContext, useState } from "react"
 import "./PostCard.css"
 
 
-export const PostCard = ({ post, onLike, onUnlike }) => {
+export const PostCard = ({ post, onLike, onUnlike, onCommentAdded }) => {
 
     const [showComments, setShowComments] = useState(false);
 
@@ -59,9 +59,10 @@ export const PostCard = ({ post, onLike, onUnlike }) => {
                 onUnlike={onUnlike}
             />
             <CommentModal
-                comments={post.comments}
+                postId={post.postId}
                 isOpen={showComments}
                 onClose={() => setShowComments(false)}
+                onCommentAdded={onCommentAdded}
             />
         </Card>
     )

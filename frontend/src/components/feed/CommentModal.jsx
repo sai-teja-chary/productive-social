@@ -3,26 +3,47 @@ import { TextArea } from "../ui/TextArea"
 import { Button } from "../ui/Button"
 import "./CommentModal.css";
 import closeIcon from "../../assets/icons/cross.svg"
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { getPostComments, postComments } from "../../lib/api";
+import { PostContext } from "../../context/PostContext";
 
-export const CommentModal = ({ comments, onClose, isOpen }) => {
+export const CommentModal = ({ postId, onClose, isOpen, onCommentAdded }) => {
+    const [comments, setComments] = useState([]);
     const [comment, setComment] = useState("");
-    const [commentList, setCommentList] = useState(comments);
+    const [loading, setLoading] = useState(true)
 
-    const handleCommentSubmit = (e) => {
+    useEffect(() => {
+        if (isOpen) fetchComments();
+    }, [isOpen]);
+
+    const fetchComments = async () => {
+        try {
+            setLoading(true);
+            const res = await getPostComments(postId);
+            setComments(res.data);
+            console.log(comments)
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleCommentSubmit = async (e) => {
         e.preventDefault();
-
         if (!comment.trim()) return;
 
-        const newComment = {
-            name: "Ajay",
-            username: "@ajay",
-            comment,
-        };
+        try {
+            const res = await postComments(postId, comment );
 
-        setCommentList(prev => [newComment, ...prev]);
-        setComment("");
+            setComments(prev => [res.data, ...prev]);
+            setComment("");
+
+            // 🔑 tell feed to increment commentsCount
+            onCommentAdded?.(postId);
+        } catch (err) {
+            console.error(err);
+        }
     };
+
 
     return (
         <Modal variant="large-modal" isOpen={isOpen} onClose={onClose}>
@@ -31,16 +52,20 @@ export const CommentModal = ({ comments, onClose, isOpen }) => {
                 <img onClick={onClose} src={closeIcon} alt="close" />
             </div>
 
-            {/* <div className="comments-list">
-                {commentList.map((c, i) => (
-                    <div key={i} className="comment-item">
-                        <p className="name">
-                            {c.name} <span>{c.username}</span>
-                        </p>
-                        <p className="text">{c.comment}</p>
-                    </div>
-                ))}
-            </div> */}
+            <div className="comments-list">
+                {loading ? (
+                    <p>Loading...</p>
+                ) : (
+                    comments.map(c => (
+                        <div key={c.id} className="comment-item">
+                            <p className="name">
+                                {c.name} <span>@{c.username}</span>
+                            </p>
+                            <p className="text">{c.content}</p>
+                        </div>
+                    ))
+                )}
+            </div>
 
             <div className="comment-input-container">
                 <form onSubmit={(e) => {  // if this does NOT print → form isn't submitting through React

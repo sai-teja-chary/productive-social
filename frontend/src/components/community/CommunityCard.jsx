@@ -19,8 +19,6 @@ export const CommunityCard = ({
     clickable = true,
     onToggleJoin }) => {
 
-    const { toggleJoinCommunity } = useContext(CommunityContext)
-
     const navigate = useNavigate()
     const CATEGORY_COLORS = {
         1: "#2563eb",
@@ -42,8 +40,7 @@ export const CommunityCard = ({
                     onClick={(e) => {
                         e.stopPropagation();
                         console.log(`${id}: joined`)
-                        onToggleJoin?.()
-                        toggleJoinCommunity(id)
+                        onToggleJoin(id);
                     }}
                 >
                     {joined ? "Joined" : "Join"}
