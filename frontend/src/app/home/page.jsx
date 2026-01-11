@@ -9,7 +9,7 @@ import { PostContext } from "../../context/PostContext"
 import { PostCardSkeleton } from "../../components/feed/PotCardSkeleton"
 
 export const Home = () => {
-    const { globalPosts, loading,} = useContext(PostContext)
+    const { globalPosts, loading, handleCommentAdded } = useContext(PostContext)
 
     if (loading) return <div>Loading.....</div>
 
@@ -24,7 +24,11 @@ export const Home = () => {
                         <PostCardSkeleton key={i} />
                     ))
                     : globalPosts.map(post => (
-                        <PostCard key={post.postId} post={post} />
+                        <PostCard
+                            key={post.postId}
+                            post={post}
+                            onCommentAdded={handleCommentAdded}
+                        />
                     ))
                 }
 

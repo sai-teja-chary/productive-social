@@ -1,11 +1,12 @@
 import { Modal } from "../ui/Modal";
 import { TextArea } from "../ui/TextArea"
 import { Button } from "../ui/Button"
+import { Avatar } from "../ui/Avatar"
 import "./CommentModal.css";
 import closeIcon from "../../assets/icons/cross.svg"
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getPostComments, postComments } from "../../lib/api";
-import { PostContext } from "../../context/PostContext";
+
 
 export const CommentModal = ({ postId, onClose, isOpen, onCommentAdded }) => {
     const [comments, setComments] = useState([]);
@@ -59,7 +60,8 @@ export const CommentModal = ({ postId, onClose, isOpen, onCommentAdded }) => {
                     comments.map(c => (
                         <div key={c.id} className="comment-item">
                             <p className="name">
-                                {c.name} <span>@{c.username}</span>
+                                <Avatar alt={c.username}/>
+                                {c.name} <span>{c.username}</span>
                             </p>
                             <p className="text">{c.content}</p>
                         </div>

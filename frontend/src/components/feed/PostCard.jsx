@@ -7,7 +7,9 @@ import { useContext, useState } from "react"
 import "./PostCard.css"
 
 
-export const PostCard = ({ post, onLike, onUnlike, onCommentAdded }) => {
+export const PostCard = ({ post, onLike, onUnlike, onCommentAdded, clickable }) => {
+
+    console.log(post)
 
     const [showComments, setShowComments] = useState(false);
 
@@ -42,15 +44,16 @@ export const PostCard = ({ post, onLike, onUnlike, onCommentAdded }) => {
     return (
         <Card className="post-card">
             <PostHeader
-                user={post.user.username}
+                user={post.user}
                 createdAt={timeAgo(post.createdAt)}
-                community={post.community.name}
+                community={post.community}
                 streak={`Day ${post.user.streak}`}
+                clickable={clickable}
             />
 
             <PostBody 
                 content={{ post: post.content  }} 
-                image={post.images[0] && `${import.meta.env.VITE_API_URL}${post.images[0].imageUrl}`}    
+                images={post.images}    
             />
             <PostFooter 
                 post={post}

@@ -155,6 +155,7 @@ export const CommunityPage = () => {
                                 onLike={handleLike}
                                 onUnlike={handleUnlike}
                                 onCommentAdded={handleCommentAdded}
+                                clickable={false}
                             />
                         ))
                 )}
