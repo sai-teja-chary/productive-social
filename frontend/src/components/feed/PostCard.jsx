@@ -50,7 +50,7 @@ export const PostCard = ({ post, onLike, onUnlike, onCommentAdded }) => {
 
             <PostBody 
                 content={{ post: post.content  }} 
-                image={`${import.meta.env.VITE_API_URL}${post.images[0].imageUrl}`}    
+                image={post.images[0] && `${import.meta.env.VITE_API_URL}${post.images[0].imageUrl}`}    
             />
             <PostFooter 
                 post={post}

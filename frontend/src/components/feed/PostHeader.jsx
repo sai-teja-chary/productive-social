@@ -6,7 +6,7 @@ import fireicon from "../../assets/icons/fire.svg"
 export const PostHeader = ({user, createdAt, community, streak}) => {
     return (
         <div className="post-header">
-            <Avatar alt="S" size={60}/>
+            <Avatar alt={user} size={60}/>
             <div className="post-header-details">
                 <div className="post-user-details">
                     <p className="post-user">{user}</p>
