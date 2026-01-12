@@ -2,12 +2,13 @@ import "./Input.css"
 
 
 export const Input = ({
+    id,
     type = "text",
     placeholder = "",
     value,
     onChange,
     onClick,
-    variant,
+    className,
     icon = "",
     ...rest
 }) => {
@@ -15,7 +16,7 @@ export const Input = ({
     return (
         <div className="input-wrapper">
 
-            <input className={`input ${variant}`}
+            <input id={id} className={`input ${className}`}
                 type={type}
                 placeholder={placeholder}
                 value={value}

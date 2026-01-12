@@ -36,7 +36,7 @@ export const LoginForm = ({form, onSubmit, onChange, passwordToggle}) =>{
 
                         <Input 
                         name="identifier"
-                        variant="auth-input" 
+                        className="auth-input" 
                         placeholder="Email or username" 
                         type="text"
                         value={form.identifier}
@@ -45,7 +45,7 @@ export const LoginForm = ({form, onSubmit, onChange, passwordToggle}) =>{
 
                         <Input 
                         name="password"
-                        variant="auth-input" 
+                        className="auth-input" 
                         placeholder="Password" 
                         type={passwordToggle.type}
                         icon={passwordToggle.icon}

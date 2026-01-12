@@ -1,13 +1,34 @@
 import "./Select.css";
 
-export const Select = ({ options = [], value, onChange }) => {
+export const Select = ({
+  id,
+  options = [],
+  value,
+  onChange,
+  className,
+  placeholder,
+  getOptionLabel,
+  getOptionValue,
+  ...rest
+}) => {
   return (
-    <select className="select" value={value} onChange={onChange}>
+    <select
+    id={id}
+      className={`select ${className}`}
+      value={value}
+      onChange={onChange}
+    >
+      {placeholder && (
+        <option value="" disabled hidden>
+          {placeholder}
+        </option>
+      )}
+
       {options.map((opt) => (
-        <option key={opt} value={opt}>
-          {opt}
+        <option key={getOptionValue(opt)} value={getOptionValue(opt)}>
+          {getOptionLabel(opt)}
         </option>
       ))}
     </select>
   );
-}
+};

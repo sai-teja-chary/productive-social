@@ -9,8 +9,6 @@ import "./PostCard.css"
 
 export const PostCard = ({ post, onLike, onUnlike, onCommentAdded, clickable }) => {
 
-    console.log(post)
-
     const [showComments, setShowComments] = useState(false);
 
     function timeAgo(dateString) {
@@ -52,7 +50,8 @@ export const PostCard = ({ post, onLike, onUnlike, onCommentAdded, clickable }) 
             />
 
             <PostBody 
-                content={{ post: post.content  }} 
+                title={post.title}
+                content={post.content} 
                 images={post.images}    
             />
             <PostFooter 

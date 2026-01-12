@@ -5,6 +5,12 @@
   margin: 20px 0;
 }
 
+.comment-modal{
+  width: 520px;
+  padding: 10px 30px;
+  max-height: 500px;
+}
+
 .comment-header img{
   width: 30px;
   cursor: pointer;

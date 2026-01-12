@@ -5,7 +5,7 @@ export const Modal = ({
     isOpen,
     onClose,
     closeOnOutsideClick = true,
-    variant = "default-modal",
+    className = "default-modal",
     children
 }) => {
     useEffect(() => {
@@ -33,7 +33,7 @@ export const Modal = ({
     return (
         <div className="modal-overlay" onClick={handleOverlayClick}>
             <div
-                className={`modal ${variant}`}
+                className={`modal ${className}`}
                 onClick={(e) => e.stopPropagation()}
             >
 

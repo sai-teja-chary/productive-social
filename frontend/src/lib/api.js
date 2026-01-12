@@ -114,5 +114,8 @@ export const postComments = (postId, content) =>
 export const getPostComments = (postId) =>
   api.get(`/comments/post/${postId}`);
 
+export const createPost = (formData) =>
+  api.post("/posts", formData)
+
 
 export default api;

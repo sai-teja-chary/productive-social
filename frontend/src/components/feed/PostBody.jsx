@@ -3,12 +3,12 @@ import "./PostBody.css"
 import notesIcon from "../../assets/icons/notes.svg"
 import { Link } from "react-router-dom"
 
-export const PostBody = ({ content, images = [], notes }) => {
+export const PostBody = ({ title, content, images = [], notes }) => {
     return (
         <>
             <div className="post-body">
-                <h3 className="post-heading">{content.heading}</h3>
-                <p className="post-content">{content.post}</p>
+                <h3 className="post-heading">{title}</h3>
+                <p className="post-content">{content}</p>
                 {images.length > 0 &&
                     images.map((image, index) =>
                         <img key={index}
@@ -17,10 +17,10 @@ export const PostBody = ({ content, images = [], notes }) => {
                             alt="Post media"
                         />)}
 
-                <Button variant="notes-button">
+                {notes && <Button variant="notes-button">
                     <img src={notesIcon} alt="Notes" />
                     <Link className="notes-link-text" to={notes}>Notes attached</Link>
-                </Button>
+                </Button>}
             </div>
 
         </>

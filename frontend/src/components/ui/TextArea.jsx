@@ -2,16 +2,18 @@ import "./TextArea.css"
 
 
 export const TextArea = ({
-  placeholder = "",
-  value,
-  onChange,
-  variant = "default-textarea",
-  rows = 4,
-  ...rest
-}) =>{
+    id,
+    placeholder = "",
+    value,
+    onChange,
+    className = "default-textarea",
+    rows = 4,
+    ...rest
+}) => {
     return (
-        <textarea 
-            className={`textarea ${variant}`}
+        <textarea
+            id= {id}
+            className={`textarea ${className}`}
             placeholder={placeholder}
             value={value}
             onChange={onChange}

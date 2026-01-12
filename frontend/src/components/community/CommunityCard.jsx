@@ -4,8 +4,7 @@ import { Card } from "../ui/Card"
 import { CommunityBanner } from "./CommunityBanner"
 import { CommunityHeader } from "./CommunityHeader"
 import "./CommunityCard.css"
-import { useContext } from "react"
-import { CommunityContext } from "../../context/CommunityContext"
+
 
 export const CommunityCard = ({
     id,

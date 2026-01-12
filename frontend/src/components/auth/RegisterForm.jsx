@@ -40,7 +40,7 @@ export const RegisterForm = ({
 
                         <Input
                             name="name"
-                            variant="auth-input"
+                            className="auth-input"
                             placeholder="Name"
                             type="text"
                             value={form.name}
@@ -49,7 +49,7 @@ export const RegisterForm = ({
 
                         <Input
                             name="username"
-                            variant="auth-input"
+                            className="auth-input"
                             placeholder="Username"
                             type="text"
                             value={form.username}
@@ -58,7 +58,7 @@ export const RegisterForm = ({
 
                         <Input
                             name="email"
-                            variant="auth-input"
+                            className="auth-input"
                             placeholder="Email"
                             type="email"
                             value={form.email}
@@ -67,7 +67,7 @@ export const RegisterForm = ({
 
                         <Input
                             name="password"
-                            variant="auth-input"
+                            className="auth-input"
                             placeholder="Password"
                             type={passwordToggle.type}
                             value={form.password}
@@ -77,7 +77,7 @@ export const RegisterForm = ({
                         />
                         <Input
                             name="confirmPassword"
-                            variant="auth-input"
+                            className="auth-input"
                             placeholder="Confirm password"
                             type={confirmPasswordToggle.type}
                             value={form.confirmPassword}

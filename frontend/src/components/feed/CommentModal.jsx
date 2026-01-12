@@ -47,7 +47,7 @@ export const CommentModal = ({ postId, onClose, isOpen, onCommentAdded }) => {
 
 
     return (
-        <Modal variant="large-modal" isOpen={isOpen} onClose={onClose}>
+        <Modal className="comment-modal" isOpen={isOpen} onClose={onClose}>
             <div className="comment-header">
                 <h3>Comments</h3>
                 <img onClick={onClose} src={closeIcon} alt="close" />
@@ -75,7 +75,7 @@ export const CommentModal = ({ postId, onClose, isOpen, onCommentAdded }) => {
                 }}>
                     <TextArea
                         placeholder="Add your comment"
-                        variant="comment-textarea"
+                        className="comment-textarea"
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
                     />
