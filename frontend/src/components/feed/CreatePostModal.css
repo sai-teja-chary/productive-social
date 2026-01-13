@@ -35,6 +35,7 @@ label{
 
 .createpost-upload{
     display: flex;
+    flex-direction: column;
 }
 
 .createpost-upload-button{
@@ -61,29 +62,7 @@ label{
     cursor: pointer;
 }
 
-.image-preview{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-.image-preview img{
-    border: 1px solid var(--color-blue);
-    width: auto;
-    height: 200px;
-}
-
-.preview-wrapper{
-    position: relative;
-}
-
-.preview-wrapper button{
-    position: absolute;
-    top: 0;
-    right: 0;
-    background: var(--color-blue);
-    color: white;
-    font-size: 12px;
-    font-weight: 500;
-    width: 20px;
-    cursor: pointer;
+.images-add-msg{
+    color: green;
+    text-align: center;
 }

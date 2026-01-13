@@ -1,0 +1,69 @@
+.attachment-modal {
+    width: 45%;
+    max-height: 900px;
+
+}
+
+.upload-box{
+    width: 100%;
+    min-height: 350px;
+    max-height: 400px;
+    border: 1px solid var(--border-light);
+    margin-top: 12px;
+    box-shadow: var(--shadow-card);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    padding: 10px;
+
+}
+
+.upload-btn{
+    background: var(--color-blue);
+    width: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.upload-btn.hidden{
+    display: none;
+}
+
+.attachment-button{
+    background: var(--color-blue);
+    color: white;
+    margin: 20px 0 10px 0;
+}
+
+.attachment-button:hover{
+    background: var(--hover-blue);
+    cursor: pointer;
+}
+
+.image-preview{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.image-preview img{
+    border: 1px solid var(--color-blue);
+    width: auto;
+    height: 150px;
+}
+
+.preview-wrapper{
+    position: relative;
+}
+
+.preview-wrapper button{
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--color-blue);
+    color: white;
+    font-size: 12px;
+    font-weight: 500;
+    width: 20px;
+    cursor: pointer;
+}

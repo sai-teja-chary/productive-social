@@ -6,20 +6,23 @@ import "./CreatePostModal.css"
 import { Input } from "../ui/Input"
 import { TextArea } from "../ui/TextArea"
 import { Button } from "../ui/Button"
-import notesIcon from "../../assets/icons/notes.svg"
-import galleryIcon from "../../assets/icons/gallery.svg"
+import attachmentIcon from "../../assets/icons/attachment.svg"
 import { createPost } from "../../lib/api"
+import { AttachmentsModal } from "./AttachmentsModal"
 
 export const CreatePostModal = ({ isOpen, onClose, joinedCommunities = [] }) => {
     const [communityId, setCommunityId] = useState("")
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
     const [images, setImages] = useState([])
+    const [notes, setNotes] = useState([])
+    const [showAttachmentsModal, setShowAttachmentsModal] = useState(false)
 
     const resetForm = () => {
         setCommunityId("")
         setTitle("")
         setContent("")
+        setImages([])
     }
 
     const handleClose = () => {
@@ -28,18 +31,12 @@ export const CreatePostModal = ({ isOpen, onClose, joinedCommunities = [] }) => 
 
     }
 
-    const removeImage = (index) => {
-        setImages(prev => prev.filter((_, i) => i !== index))
-    }
-
 
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        // 1️⃣ Create FormData
         const formData = new FormData()
 
-        // 2️⃣ JSON payload (must be Blob for Spring Boot)
         const postData = {
             communityId: Number(communityId),
             title,
@@ -53,28 +50,18 @@ export const CreatePostModal = ({ isOpen, onClose, joinedCommunities = [] }) => 
             })
         )
 
-        //   3️⃣ (Optional) append files later
-        images.forEach(file => formData.append("images", file))
-
-        console.log("Multipart payload:");
-        for (const [key, value] of formData.entries()) {
-            console.log(key, value);
-        }
-        const dataBlob = formData.get("data")
-        dataBlob.text().then(text => {
-            console.log("JSON inside data part:", text)
+        images.forEach(file => {
+            formData.append("images", file)
         })
 
         try {
             await createPost(formData)
-            handleClose() // close modal on success
+            handleClose()
         } catch (err) {
-            console.error(
-                "Create post failed:",
-                err.response?.data || err.message
-            )
+            console.error("Create post failed:", err)
         }
     }
+
 
 
 
@@ -134,60 +121,31 @@ export const CreatePostModal = ({ isOpen, onClose, joinedCommunities = [] }) => 
                         />
                     </div>
                     <div className="createpost-upload">
-
-                        <Button className={"createpost-upload-button"}>
-                            <img src={notesIcon} alt="notes" />
-                            Upload Notes
-                        </Button>
                         <Button
-                            type="button"
-                            className="createpost-upload-button"
-                            onClick={() => document.getElementById("image-upload").click()}
+                            className={"createpost-upload-button"}
+                            onClick={() => setShowAttachmentsModal(true)}
+
                         >
-                            <img src={galleryIcon} alt="gallery" />
-                            Upload Images
+                            <img src={attachmentIcon} alt="notes" />
+                            Attachments
                         </Button>
-                        <input
-                            type="file"
-                            accept="image/*"
-                            multiple
-                            hidden
-                            id="image-upload"
-                            onChange={(e) => {
-                                const files = Array.from(e.target.files)
-                                setImages(prev => [...prev, ...files])
-                            }}
-                        />
+                        {images.length > 0 && <div className="images-add-msg">{images.length} Images Added</div>}
                     </div>
-                    <div className="image-preview">
-                        {images.map((file, idx) => {
-                            const previewUrl = URL.createObjectURL(file)
 
-                            return (
-
-                                <div key={idx} className="preview-wrapper">
-                                    <button
-                                        type="button"
-                                        className="preview-remove"
-                                        onClick={() => removeImage(idx)}
-                                    >
-                                        ✕
-                                    </button>
-                                    <img
-                                        src={previewUrl}
-                                        alt="preview"
-                                        className="preview-img"
-                                        onLoad={() => URL.revokeObjectURL(previewUrl)}
-                                    />
-                                </div>
-                            )
-                        })}
-                    </div>
 
                     <Button type="submit" className={"createpost-submit-button"}>
                         Publish
                     </Button>
                 </form>
+
+                <AttachmentsModal
+                    isOpen={showAttachmentsModal}
+                    onClose={() => setShowAttachmentsModal(false)}
+                    images={images}
+                    setImages={setImages}
+                    notes={notes}
+                    setNotes={setNotes}
+                />
             </div>
         </Modal>
     )

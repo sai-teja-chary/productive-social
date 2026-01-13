@@ -16,18 +16,17 @@ export const CommunityPage = () => {
     const { communities, loading, fetchCommunities, toggleJoinCommunity } = useContext(CommunityContext);
     const [posts, setPosts] = useState([])
     const { id } = useParams()
-    const [communityLoading, setCommunityLoading] = useState(true);
     const [postsLoading, setPostsLoading] = useState(false);
     const [postsFetched, setPostsFetched] = useState(false);
     const [error, setError] = useState(null)
     const [active, setActive] = useState("Feed")
     const tabs = ["Feed", "Syllabus", "Notes"]
     const navigate = useNavigate()
-    const community = communities.find(c=> c.id === Number(id))
+    const community = communities.find(c => c.id === Number(id))
 
 
     useEffect(() => {
-        if(communities.length === 0 && !loading ){
+        if (communities.length === 0 && !loading) {
             fetchCommunities()
         }
     }, [communities.length, loading]);
@@ -110,11 +109,6 @@ export const CommunityPage = () => {
             )
         );
     };
-
-
-
-
-    if (loading || !community) return <div>Loading.......</div>
 
 
     return (

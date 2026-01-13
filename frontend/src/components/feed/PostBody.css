@@ -20,6 +20,12 @@
     
 }
 
+.post-images{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
 .post-image{
     width: auto;
     height: 300px;
