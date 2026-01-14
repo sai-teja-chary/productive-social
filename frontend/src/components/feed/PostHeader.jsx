@@ -3,8 +3,9 @@ import { Badge } from "../ui/Badge"
 import "./PostHeader.css"
 import fireicon from "../../assets/icons/fire.svg"
 import { useNavigate } from "react-router-dom"
+import { EllipsisVertical } from "lucide-react"
 
-export const PostHeader = ({ user, createdAt, community, streak, clickable = true }) => {
+export const PostHeader = ({ user, createdAt, community, streak, displayCommunityBadge = false, children }) => {
 
     const navigate = useNavigate()
     return (
@@ -16,17 +17,18 @@ export const PostHeader = ({ user, createdAt, community, streak, clickable = tru
                     <p className="post-time"> • {createdAt}</p>
                 </div>
                 <div className="post-header-badges">
-                    <Badge
-                        onClick={clickable ? () => navigate(`/communities/${community.id}`) : undefined}
+                    {displayCommunityBadge && <Badge
+                        onClick={() => navigate(`/communities/${community.id}`)}
                         variant="community-badge"
                         label={community.name}
-                    />
+                    />}
                     <Badge
                         variant="streak-badge"
                         label={streak} icon={fireicon}
                     />
                 </div>
             </div>
+            <EllipsisVertical className="menu-option" size={20} />
         </div>
 
     )

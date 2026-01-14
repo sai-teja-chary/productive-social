@@ -10,7 +10,7 @@ import attachmentIcon from "../../assets/icons/attachment.svg"
 import { createPost } from "../../lib/api"
 import { AttachmentsModal } from "./AttachmentsModal"
 
-export const CreatePostModal = ({ isOpen, onClose, joinedCommunities = [] }) => {
+export const CreatePostModal = ({ isOpen, onClose, joinedCommunities = [], onPostCreated }) => {
     const [communityId, setCommunityId] = useState("")
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
@@ -55,17 +55,13 @@ export const CreatePostModal = ({ isOpen, onClose, joinedCommunities = [] }) => 
         })
 
         try {
-            await createPost(formData)
+            const res = await createPost(formData)
+            onPostCreated(res.data)
             handleClose()
         } catch (err) {
             console.error("Create post failed:", err)
         }
     }
-
-
-
-
-
 
     return (
         <Modal
@@ -98,21 +94,21 @@ export const CreatePostModal = ({ isOpen, onClose, joinedCommunities = [] }) => 
                     </div>
 
                     <div className="createpost-title-input">
-                        <label htmlFor="title">Title</label>
+                        <label htmlFor="title">Title<span style={{ color: "red" }}>*</span></label>
                         <Input
                             id={"title"}
                             className={"createpost-input"}
                             type={"text"}
+                            required
                             placeholder={"What did you accomplish today?"}
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                         />
                     </div>
                     <div className="createpost-title-input">
-                        <label htmlFor="description">Description<span style={{ color: "red" }}>*</span></label>
+                        <label htmlFor="description">Description</label>
                         <TextArea
                             id={"description"}
-                            required
                             className={"createpost-textarea"}
                             type={"text"}
                             placeholder={"Share details about your progress, learnings or challenges..."}
@@ -133,7 +129,10 @@ export const CreatePostModal = ({ isOpen, onClose, joinedCommunities = [] }) => 
                     </div>
 
 
-                    <Button type="submit" className={"createpost-submit-button"}>
+                    <Button
+                        type="submit"
+                        className={"createpost-submit-button"}
+                    >
                         Publish
                     </Button>
                 </form>

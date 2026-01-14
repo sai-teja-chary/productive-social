@@ -6,11 +6,12 @@ import { PageHeader } from "../../../components/layout/PageHeader"
 import { Tabs } from "../../../components/ui/Tabs"
 import "../Communities.css"
 import { getCommunity, getCommunityPosts, joinCommunity, leaveCommunity, likePosts, unlikePosts } from "../../../lib/api"
-import { useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams, useSearchParams } from "react-router-dom"
 import backIcon from "../../../assets/icons/backarrow.svg"
 import { PostCard } from "../../../components/feed/PostCard"
 import { PostCardSkeleton } from "../../../components/feed/PotCardSkeleton"
 import { CommunityContext } from "../../../context/CommunityContext"
+import { TaskItem } from "../../../components/community/TaskItem"
 
 export const CommunityPage = () => {
     const { communities, loading, fetchCommunities, toggleJoinCommunity } = useContext(CommunityContext);
@@ -19,7 +20,9 @@ export const CommunityPage = () => {
     const [postsLoading, setPostsLoading] = useState(false);
     const [postsFetched, setPostsFetched] = useState(false);
     const [error, setError] = useState(null)
-    const [active, setActive] = useState("Feed")
+    const [searchParams, setSearchParams] = useSearchParams()
+    const tabFromUrl = searchParams.get("tab") || "Feed"
+    const [active, setActive] = useState(tabFromUrl)
     const tabs = ["Feed", "Syllabus", "Notes"]
     const navigate = useNavigate()
     const community = communities.find(c => c.id === Number(id))
@@ -80,6 +83,11 @@ export const CommunityPage = () => {
         }
     };
 
+    const handelTabChange = (tab) =>{
+        setActive(tab)
+        setSearchParams({tab})
+    }
+
     const handleUnlike = async (postId) => {
         setPosts(prev =>
             prev.map(post =>
@@ -110,6 +118,15 @@ export const CommunityPage = () => {
         );
     };
 
+    if (loading || !community) {
+        return (
+            <PageContainer>
+                <Navbar />
+                <div style={{ padding: "16px" }}>Loading community...</div>
+            </PageContainer>
+        )
+    }
+
 
     return (
         <PageContainer>
@@ -132,7 +149,7 @@ export const CommunityPage = () => {
                     <Tabs
                         tabs={tabs}
                         active={active}
-                        onChange={setActive}
+                        onChange={handelTabChange}
                     />
                 </div>
             </PageHeader>
@@ -149,10 +166,12 @@ export const CommunityPage = () => {
                                 onLike={handleLike}
                                 onUnlike={handleUnlike}
                                 onCommentAdded={handleCommentAdded}
-                                clickable={false}
                             />
                         ))
                 )}
+                {active === "Syllabus" &&
+                    <TaskItem />
+                }
             </div>
         </PageContainer>
     )

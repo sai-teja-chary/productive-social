@@ -35,6 +35,11 @@ export const PostProvider = ({ children }) => {
         }
     }
 
+    const addPost = (newPost) => {
+        setGlobalPosts(prev => [newPost, ...prev])
+    }
+
+
     const likePost = async (postId) => {
         try {
             setGlobalPosts(prev =>
@@ -77,16 +82,16 @@ export const PostProvider = ({ children }) => {
     }
 
     const handleCommentAdded = (postId) => {
-            setGlobalPosts(prev =>
-                prev.map(p =>
-                    p.postId === postId
-                        ? { ...p, commentsCount: p.commentsCount + 1 }
-                        : p
-                )
-            );
-        };
+        setGlobalPosts(prev =>
+            prev.map(p =>
+                p.postId === postId
+                    ? { ...p, commentsCount: p.commentsCount + 1 }
+                    : p
+            )
+        );
+    };
 
-    return <PostContext.Provider value={{ globalPosts, loading, error, likePost, unlikePost, fetchGlobalPosts, handleCommentAdded }}>
+    return <PostContext.Provider value={{ globalPosts, loading, error, likePost, unlikePost, fetchGlobalPosts, handleCommentAdded, addPost }}>
         {children}
     </PostContext.Provider>
 }

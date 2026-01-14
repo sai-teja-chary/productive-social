@@ -11,7 +11,7 @@ import { CommunityContext } from "../../context/CommunityContext"
 import { CreatePostModal } from "../../components/feed/CreatePostModal"
 
 export const Home = () => {
-    const { globalPosts, loading, handleCommentAdded } = useContext(PostContext)
+    const { globalPosts, loading, handleCommentAdded, addPost } = useContext(PostContext)
     const { communities } = useContext(CommunityContext)
     const [showCreatePost, setShowCreatePost] = useState(false)
 
@@ -33,6 +33,7 @@ export const Home = () => {
         joinedCommunitiesMap.values()
     )
 
+
     return (
         <PageContainer>
             <Navbar />
@@ -51,6 +52,7 @@ export const Home = () => {
                                 key={post.postId}
                                 post={post}
                                 onCommentAdded={handleCommentAdded}
+                                displayCommunityBadge={true}
                             />
                         ))
                 }
@@ -60,6 +62,7 @@ export const Home = () => {
                 isOpen={showCreatePost}
                 onClose={() => setShowCreatePost(false)}
                 joinedCommunities={joinedCommunityOptions}
+                onPostCreated={addPost}
             />
         </PageContainer>
     )

@@ -3,11 +3,11 @@ import { PostHeader } from "./PostHeader"
 import { PostBody } from "./PostBody"
 import { PostFooter } from "./PostFooter"
 import { CommentModal } from "./CommentModal"
-import { useContext, useState } from "react"
+import { useState } from "react"
 import "./PostCard.css"
 
 
-export const PostCard = ({ post, onLike, onUnlike, onCommentAdded, clickable }) => {
+export const PostCard = ({ post, onLike, onUnlike, onCommentAdded, displayCommunityBadge }) => {
 
     const [showComments, setShowComments] = useState(false);
 
@@ -46,7 +46,7 @@ export const PostCard = ({ post, onLike, onUnlike, onCommentAdded, clickable }) 
                 createdAt={timeAgo(post.createdAt)}
                 community={post.community}
                 streak={`Day ${post.user.streak}`}
-                clickable={clickable}
+                displayCommunityBadge={displayCommunityBadge}
             />
 
             <PostBody 
