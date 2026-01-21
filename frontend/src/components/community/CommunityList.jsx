@@ -2,7 +2,7 @@ import { CommunityCard } from "./CommunityCard";
 import { CommunityCardSkeleton } from "./CommunityCardSkeleton";
 import "./CommunityList.css";
 
-export const CommunityList = ({ communities, loading, view, onToggleJoin }) => {
+export const CommunityList = ({ communities, loading, view, toggleJoinCommunity }) => {
   const containerClass = view === "grid" ? "community-grid" : "community-list";
 
   return (
@@ -21,7 +21,7 @@ export const CommunityList = ({ communities, loading, view, onToggleJoin }) => {
               joined={c.joined}
               streak={c.streak}
               view={view}
-              onToggleJoin={onToggleJoin}
+              toggleJoinCommunity={toggleJoinCommunity}
             />
           ))}
     </div>

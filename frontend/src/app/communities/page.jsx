@@ -31,7 +31,7 @@ export const Communities = () => {
           communities={communities}
           loading={loading}
           view={view}
-          onToggleJoin={toggleJoinCommunity}
+          toggleJoinCommunity={toggleJoinCommunity}
         />
       </div>
     </PageContainer>

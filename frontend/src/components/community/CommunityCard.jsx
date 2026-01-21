@@ -15,7 +15,7 @@ export const CommunityCard = ({
   view,
   className,
   clickable = true,
-  onToggleJoin,
+  toggleJoinCommunity,
 }) => {
   const navigate = useNavigate();
 
@@ -33,7 +33,14 @@ export const CommunityCard = ({
         view={view}
       />
       <div className={`community-card-footer ${view === "list" ? "list" : ""}`}>
-        <JoinButton id={id} joined={joined} onToggleJoin={onToggleJoin} />
+        <JoinButton
+          id={id}
+          joined={joined}
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleJoinCommunity(id);
+          }}
+        />
       </div>
     </Card>
   );

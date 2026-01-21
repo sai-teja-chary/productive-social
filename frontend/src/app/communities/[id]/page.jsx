@@ -30,6 +30,7 @@ export const CommunityPage = () => {
     unlikePost,
     handleCommentAdded,
     addPost,
+    fetchPosts,
   } = useContext(PostContext);
 
   const [showCreatePost, setShowCreatePost] = useState(false);
@@ -55,14 +56,13 @@ export const CommunityPage = () => {
   }, [communities.length, loading]);
 
   useEffect(() => {
+    if (active === "Feed" && communityPosts.length === 0) {
+      fetchPosts();
+    }
     if (active === "Syllabus" && syllabus.length === 0) {
       fetchCommunitySyllabus();
     }
   }, [active, id]);
-
-  useEffect(() => {
-    console.log("syllabus:", syllabus);
-  }, [syllabus]);
 
   const fetchCommunitySyllabus = async () => {
     try {
@@ -150,7 +150,9 @@ export const CommunityPage = () => {
                 />
               )))}
 
-        {active === "Syllabus" && syllabus.length > 0 && <TaskItem title={syllabus[0].title}/>}
+        {active === "Syllabus" && syllabus.length > 0 && (
+          <TaskItem title={syllabus[0].title} />
+        )}
       </div>
 
       <CreatePostModal
