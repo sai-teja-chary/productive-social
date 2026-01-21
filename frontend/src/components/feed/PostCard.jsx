@@ -45,7 +45,7 @@ export const PostCard = ({ post, onLike, onUnlike, onCommentAdded, displayCommun
                 user={post.user}
                 createdAt={timeAgo(post.createdAt)}
                 community={post.community}
-                streak={`Day ${post.user.streak}`}
+                streak={`${post.user.streak}`}
                 displayCommunityBadge={displayCommunityBadge}
             />
 

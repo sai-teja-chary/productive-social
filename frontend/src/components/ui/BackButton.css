@@ -1,0 +1,10 @@
+.back-arrow{
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 5px;
+    margin-right: 20px;
+}
+
+.back-arrow:hover{
+    background-color: var(--gray-200);
+}
