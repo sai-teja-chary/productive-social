@@ -23,12 +23,12 @@
 }
 
 /* checked state */
-.checkbox-container input:checked + .checkmark {
+.checkbox-container input:checked+.checkmark {
   background-color: var(--color-blue);
   border-color: var(--color-blue);
 }
 
-.checkbox-container input:checked + .checkmark::after {
+.checkbox-container input:checked+.checkmark::after {
   content: "";
   position: absolute;
   left: 8px;

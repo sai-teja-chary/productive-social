@@ -1,6 +1,6 @@
 @import "../../styles/variables.css";
 
-.input-wrapper{
+.input-wrapper {
   position: relative;
   width: 100%;
 }
@@ -24,7 +24,7 @@
   outline: none;
 }
 
-.input-icon{
+.input-icon {
   position: absolute;
   right: 12px;
   top: 50%;
@@ -38,7 +38,8 @@
 .search-input {
   border-radius: var(--radius-lg);
   background-color: var(--gray-100);
-  padding-left: 40px; /* for icon spacing */
+  padding-left: 40px;
+  /* for icon spacing */
 }
 
 /* Title Input (for Create Post) */

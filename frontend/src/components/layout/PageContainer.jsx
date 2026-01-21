@@ -1,6 +1,5 @@
-
 import "./PageContainer.css";
 
 export const PageContainer = ({ children }) => {
-    return <div className="page-container">{children}</div>;
-}
+  return <div className="page-container">{children}</div>;
+};

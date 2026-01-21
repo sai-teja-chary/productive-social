@@ -16,7 +16,8 @@
 }
 
 /* Smooth fonts */
-html, body {
+html,
+body {
   font-family: var(--font-primary);
   background: var(--bg-main);
   color: var(--gray-900);
@@ -28,7 +29,8 @@ html, body {
 
 
 /* Remove list styles */
-ul, li {
+ul,
+li {
   list-style: none;
 }
 
@@ -41,7 +43,10 @@ a {
 }
 
 /* Input defaults */
-input, textarea, button, select {
+input,
+textarea,
+button,
+select {
   font-family: inherit;
   border: none;
   outline: none;

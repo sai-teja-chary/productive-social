@@ -11,7 +11,8 @@
   padding: 0 14px;
   font-size: 15px;
   font-weight: 500;
-  color: var(--color-blue); /* for blue header */
+  color: var(--color-blue);
+  /* for blue header */
   cursor: pointer;
   position: relative;
 }

@@ -1,4 +1,4 @@
-.community-banner{
+.community-banner {
     position: absolute;
     top: 0;
     left: 0;
@@ -11,12 +11,12 @@
     border-top-right-radius: var(--radius-lg);
 }
 
-.community-banner-list{
+.community-banner-list {
     margin: 20px;
     border-radius: var(--radius-lg);
 }
 
-.community-banner-icon{
+.community-banner-icon {
     width: 50px;
     margin: 20px;
 }

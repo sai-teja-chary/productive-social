@@ -1,4 +1,4 @@
-.post-header{
+.post-header {
     display: flex;
     align-items: center;
     gap: 5px;
@@ -7,44 +7,44 @@
 
 }
 
-.post-header-details{
+.post-header-details {
     display: flex;
     flex-direction: column;
 }
 
-.post-user-details{
+.post-user-details {
     display: flex;
     align-items: center;
     padding-top: 10px;
     gap: 10px;
 }
 
-.post-user{
+.post-user {
     font-size: 16px;
     font-weight: 600;
     margin-left: 10px;
     cursor: pointer;
 }
 
-.post-time{
+.post-time {
     color: var(--gray-500);
     font-size: 12px;
 }
 
-.post-header-badges{
+.post-header-badges {
     display: flex;
     align-items: center;
 }
 
 .community-badge {
-  background: var(--color-purple);
-  color: var(--gray-100);
-  padding: 2px 10px;
-  cursor: pointer;
+    background: var(--color-purple);
+    color: var(--gray-100);
+    padding: 2px 10px;
+    cursor: pointer;
 
 }
 
-.menu-option{
+.menu-option {
     margin-left: auto;
     margin-right: 20px;
     cursor: pointer;

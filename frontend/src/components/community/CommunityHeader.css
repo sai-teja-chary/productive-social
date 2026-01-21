@@ -1,4 +1,4 @@
-.community-header{
+.community-header {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -7,25 +7,24 @@
     height: 100%;
 }
 
-.community-header.list{
+.community-header.list {
     gap: 2px;
 }
 
-.community-title{
+.community-title {
     font-size: 20px;
     font-weight: 600;
     height: 100%;
 }
 
-.community-description{
+.community-description {
     font-size: 14px;
     color: var(--gray-500);
     height: 100%;
 }
 
-.community-stats{
+.community-stats {
     height: 100%;
     display: flex;
     gap: 5px;
 }
-

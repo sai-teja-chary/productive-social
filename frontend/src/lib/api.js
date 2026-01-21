@@ -9,7 +9,7 @@ let isRefreshing = false;
 let queue = [];
 
 function resolveQueue() {
-  queue.forEach(cb => cb());
+  queue.forEach((cb) => cb());
   queue = [];
 }
 
@@ -30,10 +30,12 @@ api.interceptors.response.use(
     const url = original.url.replace(api.defaults.baseURL, "");
 
     // 🚫 NEVER refresh auth endpoints
-    if (url.startsWith("/auth/login") ||
-        url.startsWith("/auth/logout") ||
-        url.startsWith("/auth/register") ||
-        url.startsWith("/auth/refresh")) {
+    if (
+      url.startsWith("/auth/login") ||
+      url.startsWith("/auth/logout") ||
+      url.startsWith("/auth/register") ||
+      url.startsWith("/auth/refresh")
+    ) {
       return Promise.reject(error);
     }
 
@@ -41,7 +43,7 @@ api.interceptors.response.use(
       original._retry = true;
 
       if (isRefreshing) {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
           queue.push(() => resolve(api(original)));
         });
       }
@@ -56,66 +58,54 @@ api.interceptors.response.use(
         resolveQueue();
 
         return api(original);
-
       } catch (refreshErr) {
         isRefreshing = false;
         queue = [];
-        window.location.replace("/login")
+        window.location.replace("/login");
         return Promise.reject(refreshErr);
       }
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export const loginUser = (identifier, password) =>
   api.post("/auth/login", { identifier, password });
 
-export const registerUser = (data) =>
-  api.post("/auth/register", data);
+export const registerUser = (data) => api.post("/auth/register", data);
 
-export const getUser = () =>
-  api.get("/auth/me");
+export const getUser = () => api.get("/auth/me");
 
-export const logoutUser = () =>
-  api.post("/auth/logout");
+export const logoutUser = () => api.post("/auth/logout");
 
-export const getCommunities = () =>
-  api.get("/communities")
+export const getCommunities = () => api.get("/communities");
 
 export const joinCommunity = (communityId) =>
-  api.post("/communities/join", {communityId})
+  api.post("/communities/join", { communityId });
 
 export const leaveCommunity = (communityId) =>
-  api.post(`/communities/${communityId}/leave`)
+  api.post(`/communities/${communityId}/leave`);
 
 export const getCommunity = (communityId) =>
-  api.get(`/communities/${communityId}`)
+  api.get(`/communities/${communityId}`);
 
-export const getGlobalPosts = () =>
-  api.get("/posts/feed/global")
+export const getGlobalPosts = () => api.get("/posts/feed/global");
 
 export const getCommunityPosts = (communityId) =>
-  api.get(`/posts/feed/community/${communityId}`)
+  api.get(`/posts/feed/community/${communityId}`);
 
-export const getUserPosts = () =>
-  api.get("posts/feed/me")
+export const getUserPosts = () => api.get("posts/feed/me");
 
-export const likePosts = (postId) =>
-  api.post(`/posts/${postId}/like`)
+export const likePosts = (postId) => api.post(`/posts/${postId}/like`);
 
-export const unlikePosts = (postId) =>
-  api.delete(`/posts/${postId}/like`)
+export const unlikePosts = (postId) => api.delete(`/posts/${postId}/like`);
 
 export const postComments = (postId, content) =>
-  api.post("/comments", {postId, content})
+  api.post("/comments", { postId, content });
 
-export const getPostComments = (postId) =>
-  api.get(`/comments/post/${postId}`);
+export const getPostComments = (postId) => api.get(`/comments/post/${postId}`);
 
-export const createPost = (formData) =>
-  api.post("/posts", formData)
-
+export const createPost = (formData) => api.post("/posts", formData);
 
 export default api;

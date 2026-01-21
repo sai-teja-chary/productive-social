@@ -9,7 +9,7 @@
   font-family: var(--font-primary);
 }
 
-.notes-button{
+.notes-button {
   display: flex;
   align-items: center;
   background-color: #eff6ff;
@@ -21,6 +21,6 @@
   width: 100%;
 }
 
-.notes-button:hover{
+.notes-button:hover {
   background-color: #e4f0ff;
 }

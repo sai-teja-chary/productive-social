@@ -1,4 +1,4 @@
-import "./Tooltip.css"
+import "./Tooltip.css";
 
 export const Tooltip = ({ label, children }) => {
   return (
@@ -6,5 +6,5 @@ export const Tooltip = ({ label, children }) => {
       {children}
       <span className="tooltip">{label}</span>
     </span>
-  )
-}
+  );
+};

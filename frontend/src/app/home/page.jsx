@@ -1,69 +1,73 @@
-import { PageContainer } from "../../components/layout/PageContainer"
-import { Navbar } from "../../components/layout/Navbar"
-import { PostCard } from "../../components/feed/PostCard"
-import { NewPostButton } from "../../components/feed/NewPostButton"
-import { PageHeader } from "../../components/layout/PageHeader"
-import "../../App.css"
-import { useContext, useState } from "react"
-import { PostContext } from "../../context/PostContext"
-import { PostCardSkeleton } from "../../components/feed/PotCardSkeleton"
-import { CommunityContext } from "../../context/CommunityContext"
-import { CreatePostModal } from "../../components/feed/CreatePostModal"
+import { PageContainer } from "../../components/layout/PageContainer";
+import { Navbar } from "../../components/layout/Navbar";
+import { PostCard } from "../../components/feed/PostCard";
+import { NewPostButton } from "../../components/feed/NewPostButton";
+import { PageHeader } from "../../components/layout/PageHeader";
+import "../../App.css";
+import { useContext, useEffect, useState } from "react";
+import { PostContext } from "../../context/PostContext";
+import { PostCardSkeleton } from "../../components/feed/PotCardSkeleton";
+import { CommunityContext } from "../../context/CommunityContext";
+import { CreatePostModal } from "../../components/feed/CreatePostModal";
 
 export const Home = () => {
-    const { globalPosts, loading, handleCommentAdded, addPost } = useContext(PostContext)
-    const { communities } = useContext(CommunityContext)
-    const [showCreatePost, setShowCreatePost] = useState(false)
+  const { posts, loading, fetchPosts, handleCommentAdded, addPost } =
+    useContext(PostContext);
 
-    if (loading) return <div>Loading.....</div>
+  const { communities } = useContext(CommunityContext);
+  const [showCreatePost, setShowCreatePost] = useState(false);
 
-    const joinedCommunitiesMap = new Map(
-        communities
-            .filter(c => c.joined)
-            .map(c => [c.id, c])
-    );
+  useEffect(() => {
+    if (posts.length === 0) {
+      fetchPosts();
+    }
+  }, []);
 
+  if (loading) return <div>Loading.....</div>;
 
-    const joinedPosts = globalPosts.filter(
-        post => joinedCommunitiesMap.has(post.community.id)
-    );
+  const joinedCommunitiesMap = new Map(
+    communities.filter((c) => c.joined).map((c) => [c.id, c]),
+  );
 
+  const joinedPosts = posts.filter((post) =>
+    joinedCommunitiesMap.has(post.community.id),
+  );
 
-    const joinedCommunityOptions = Array.from(
-        joinedCommunitiesMap.values()
-    )
+  const joinedCommunityOptions = Array.from(joinedCommunitiesMap.values());
 
+  return (
+    <PageContainer>
+      <Navbar />
+      <PageHeader
+        title="Global Feed"
+        description="Join challenge-based communities and stay accountable"
+      >
+        <NewPostButton onClick={() => setShowCreatePost(true)} />
+      </PageHeader>
 
-    return (
-        <PageContainer>
-            <Navbar />
-            <PageHeader title="Global Feed" description="Join challenge-based communities and stay accountable"
-            ><NewPostButton onClick={() => setShowCreatePost(true)} /></PageHeader>
-            <div className="main">
-                {joinedPosts.length === 0
-                    ? <div>No posts yet from your communities</div>
-                    :
-                    loading
-                        ? Array.from({ length: 3 }).map((_, i) => (
-                            <PostCardSkeleton key={i} />
-                        ))
-                        : joinedPosts.map(post => (
-                            <PostCard
-                                key={post.postId}
-                                post={post}
-                                onCommentAdded={handleCommentAdded}
-                                displayCommunityBadge={true}
-                            />
-                        ))
-                }
-
-            </div>
-            <CreatePostModal
-                isOpen={showCreatePost}
-                onClose={() => setShowCreatePost(false)}
-                joinedCommunities={joinedCommunityOptions}
-                onPostCreated={addPost}
+      <div className="main">
+        {joinedPosts.length === 0 ? (
+          <div>No posts yet from your communities</div>
+        ) : loading ? (
+          Array.from({ length: 3 }).map((_, i) => <PostCardSkeleton key={i} />)
+        ) : (
+          joinedPosts.map((post) => (
+            <PostCard
+              key={post.postId}
+              post={post}
+              onCommentAdded={() => handleCommentAdded(post.postId)}
+              displayCommunityBadge
             />
-        </PageContainer>
-    )
-}
+          ))
+        )}
+      </div>
+
+      <CreatePostModal
+        isOpen={showCreatePost}
+        onClose={() => setShowCreatePost(false)}
+        joinedCommunities={joinedCommunityOptions}
+        onPostCreated={addPost}
+      />
+    </PageContainer>
+  );
+};

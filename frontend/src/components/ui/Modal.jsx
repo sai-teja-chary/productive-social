@@ -1,46 +1,43 @@
 import { useEffect } from "react";
-import "./Modal.css"
+import "./Modal.css";
 
 export const Modal = ({
-    isOpen,
-    onClose,
-    closeOnOutsideClick = true,
-    className = "default-modal",
-    children
+  isOpen,
+  onClose,
+  closeOnOutsideClick = true,
+  className = "default-modal",
+  children,
 }) => {
-    useEffect(() => {
-        const handleEscape = (e) => {
-            if (e.key === "Escape") {
-                onClose();
-            }
-        }
-        if (isOpen) {
-            document.addEventListener("keydown", handleEscape)
-        }
-        return () => {
-            document.removeEventListener("keydown", handleEscape)
-        };
-    }, [isOpen, onClose]);
-
-    if (!isOpen) return null;
-
-    const handleOverlayClick = () => {
-        if (closeOnOutsideClick) {
-            onClose();
-        }
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+    if (isOpen) {
+      document.addEventListener("keydown", handleEscape);
     }
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [isOpen, onClose]);
 
-    return (
-        <div className="modal-overlay" onClick={handleOverlayClick}>
-            <div
-                className={`modal ${className}`}
-                onClick={(e) => e.stopPropagation()}
-            >
+  if (!isOpen) return null;
 
+  const handleOverlayClick = () => {
+    if (closeOnOutsideClick) {
+      onClose();
+    }
+  };
 
-                {children}
-
-            </div>
-        </div>
-    )
-}
+  return (
+    <div className="modal-overlay" onClick={handleOverlayClick}>
+      <div
+        className={`modal ${className}`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {children}
+      </div>
+    </div>
+  );
+};

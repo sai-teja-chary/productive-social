@@ -1,4 +1,4 @@
-.community-card{
+.community-card {
   position: relative;
   padding-top: 100px;
   width: 100%;
@@ -7,26 +7,26 @@
   flex-direction: column;
   cursor: pointer;
   border-radius: var(--radius-lg);
-  
+
 }
 
-.community-card.list{
+.community-card.list {
   flex-direction: row;
   align-items: center;
   height: auto;
   padding-top: 0;
 }
+
 .community-card-footer {
-  margin-top: auto; /* ✅ this is the key */
+  margin-top: auto;
+  /* ✅ this is the key */
   padding: 12px;
 }
 
-.community-card-footer.list{
+.community-card-footer.list {
   margin-top: 0;
   margin-left: auto;
   margin: 10px 10px 10px auto;
   align-items: center;
 
 }
-
-

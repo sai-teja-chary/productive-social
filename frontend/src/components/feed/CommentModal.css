@@ -1,17 +1,17 @@
-.comment-header{
+.comment-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 20px 0;
 }
 
-.comment-modal{
+.comment-modal {
   width: 520px;
   padding: 10px 30px;
   max-height: 500px;
 }
 
-.comment-header img{
+.comment-header img {
   width: 30px;
   cursor: pointer;
 }
@@ -55,10 +55,11 @@
   gap: 10px;
 }
 
-.comment-button{
+.comment-button {
   background-color: var(--color-blue);
   color: var(--gray-100);
   font-weight: 500;
+  width: 100px;
 }
 
 /* Comment Textarea */
@@ -72,5 +73,3 @@
   border: none;
   box-shadow: none;
 }
-
-

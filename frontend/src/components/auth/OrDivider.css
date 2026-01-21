@@ -1,6 +1,6 @@
 @import "../../styles/variables.css";
 
-.or-divider{
+.or-divider {
     display: flex;
     justify-content: center;
     align-items: center;

@@ -1,16 +1,15 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
-import './App.css'
-import { Home } from './app/home/page'
-import { Login } from './app/login/page'
-import { Register } from './app/register/page'
-import { Communities } from './app/communities/page'
-import { CommunityPage } from './app/communities/[id]/page'
-import { Notes } from './app/notes/page'
-import { Profile } from './app/profile/page'
-import { ProtectedRoute } from './components/layout/ProtectedRoute'
+import { Routes, Route, Navigate } from "react-router-dom";
+import "./App.css";
+import { Home } from "./app/home/page";
+import { Login } from "./app/login/page";
+import { Register } from "./app/register/page";
+import { Communities } from "./app/communities/page";
+import { CommunityPage } from "./app/communities/[id]/page";
+import { Notes } from "./app/notes/page";
+import { Profile } from "./app/profile/page";
+import { ProtectedRoute } from "./components/layout/ProtectedRoute";
 
 function App() {
-
   return (
     <Routes>
       <Route path="/register" element={<Register />} />
@@ -27,4 +26,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

@@ -1,4 +1,4 @@
-.post-body{
+.post-body {
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -9,33 +9,33 @@
     gap: 15px;
 }
 
-.post-heading{
+.post-heading {
     font-size: 18px;
     font-weight: 500;
 }
 
-.post-content{
+.post-content {
     font-size: 15px;
     color: var(--gray-700);
-    
+
 }
 
-.post-images{
+.post-images {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
 }
 
-.post-image{
+.post-image {
     width: auto;
     height: 300px;
 }
 
-.notes-link-text{
+.notes-link-text {
     font-weight: 500;
     font-size: 14px;
 }
 
-.notes-button img{
+.notes-button img {
     width: 16px;
 }

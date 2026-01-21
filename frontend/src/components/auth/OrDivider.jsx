@@ -1,11 +1,5 @@
-import "./OrDivider.css"
+import "./OrDivider.css";
 
-export const OrDivider = ({
-    message
-}) => {
-    return (
-        <p className="or-divider">
-        Or
-        </p>
-    )
-}
+export const OrDivider = ({ message }) => {
+  return <p className="or-divider">Or</p>;
+};

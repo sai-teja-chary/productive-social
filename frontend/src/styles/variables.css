@@ -14,7 +14,7 @@
   --color-red: #ff0033;
   --hover-red: #e7012f;
   --color-gradient: linear-gradient(90deg, #2563eb, #7d5af4);
-  
+
 
   /* Grays */
   --gray-50: #f8f9fb;
@@ -26,7 +26,8 @@
   --gray-900: #111113;
 
   /* Backgrounds */
-  --bg-main: #ffffff;      /* your app main background */
+  --bg-main: #ffffff;
+  /* your app main background */
   --bg-card: #ffffff;
   --bg-soft: #f3f3f4;
 

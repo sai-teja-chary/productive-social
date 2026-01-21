@@ -13,10 +13,11 @@ export const Select = ({
 }) => {
   return (
     <select
-    id={id}
+      id={id}
       className={`select ${className}`}
       value={value}
       onChange={onChange}
+      {...rest}
     >
       {placeholder && (
         <option value="" disabled hidden>

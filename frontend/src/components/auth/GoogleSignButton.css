@@ -1,9 +1,9 @@
-.sso-button{
+.sso-button {
   display: flex;
   gap: 20px;
   align-items: center;
   width: 400px;
-  height:60px;
+  height: 60px;
   background-color: transparent;
   color: var(--gray-700);
   border: 1px solid var(--gray-300);
@@ -16,13 +16,12 @@
   background-color: var(--gray-100);
 }
 
-.button-container{
-    position: relative;
-    margin: 5px;
+.button-container {
+  position: relative;
+  margin: 5px;
 }
 
-.button-container img{
-    position: absolute;
-    left: 20px;
+.button-container img {
+  position: absolute;
+  left: 20px;
 }
-

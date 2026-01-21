@@ -14,4 +14,4 @@ export const Tabs = ({ tabs = [], active, onChange, className }) => {
       ))}
     </div>
   );
-}
+};

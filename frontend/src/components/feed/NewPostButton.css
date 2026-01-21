@@ -1,4 +1,3 @@
-
 .create-post {
   display: flex;
   justify-content: center;
@@ -13,6 +12,6 @@
   background-color: #682fb6;
 }
 
-.plus-icon{
-    width: 25px;
+.plus-icon {
+  width: 25px;
 }

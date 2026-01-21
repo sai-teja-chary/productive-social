@@ -1,82 +1,85 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { getCommunities } from "../lib/api";
 import { AuthContext } from "./AuthContext";
-import { joinCommunity, leaveCommunity } from "../lib/api"
+import { joinCommunity, leaveCommunity } from "../lib/api";
 
-export const CommunityContext = createContext()
+export const CommunityContext = createContext();
 
 export const CommunityProvider = ({ children }) => {
-    const { user } = useContext(AuthContext)
-    const [communities, setCommunities] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+  const { user } = useContext(AuthContext);
+  const [communities, setCommunities] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-    useEffect(() => {
-        if (!user) {
-            setCommunities([]);
-            return;
-        }
-        fetchCommunities();
-    }, [user]);
-
-    const fetchCommunities = async () => {
-        try {
-            setLoading(true)
-            setError(null)
-            const res = await getCommunities()
-            const sorted = [...res.data].sort((a, b) => {
-                if (a.joined !== b.joined) {
-                    return Number(b.joined) - Number(a.joined);
-                }
-                return b.memberCount - a.memberCount;
-            });
-            setCommunities(sorted)
-
-        } catch (error) {
-            console.error(error)
-            setError(error)
-        } finally {
-            setLoading(false)
-        }
+  useEffect(() => {
+    if (!user) {
+      setCommunities([]);
+      return;
     }
+    fetchCommunities();
+  }, [user]);
 
-
-    const toggleJoinCommunity = async (communityId) => {
-        const prev = [...communities];
-        const community = communities.find(c => c.id === communityId);
-
-        if (!community) return;
-
-        const nextJoined = !community.joined;
-
-        try {
-           setCommunities(prev =>
-            prev.map(c =>
-                c.id === communityId
-                    ? {
-                        ...c,
-                        joined: nextJoined,
-                        memberCount: c.memberCount + (nextJoined ? 1 : -1)
-                    }
-                    : c
-            )
-        );
-
-            community.joined
-                ? await leaveCommunity(communityId)
-                : await joinCommunity(communityId);
-
-        } catch (error) {
-            console.error(error);
-            setCommunities(prev); // rollback
+  const fetchCommunities = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const res = await getCommunities();
+      const sorted = [...res.data].sort((a, b) => {
+        if (a.joined !== b.joined) {
+          return Number(b.joined) - Number(a.joined);
         }
-    };
+        return b.memberCount - a.memberCount;
+      });
+      setCommunities(sorted);
+    } catch (error) {
+      console.error(error);
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  const toggleJoinCommunity = async (communityId) => {
+    const prev = [...communities];
+    const community = communities.find((c) => c.id === communityId);
 
+    if (!community) return;
 
-    return (
-        <CommunityContext.Provider value={{ communities, loading, error, fetchCommunities, toggleJoinCommunity }}>
-            {children}
-        </CommunityContext.Provider>
-    );
-}
+    const nextJoined = !community.joined;
+
+    try {
+      setCommunities((prev) =>
+        prev.map((c) =>
+          c.id === communityId
+            ? {
+                ...c,
+                joined: nextJoined,
+                memberCount: c.memberCount + (nextJoined ? 1 : -1),
+              }
+            : c,
+        ),
+      );
+
+      community.joined
+        ? await leaveCommunity(communityId)
+        : await joinCommunity(communityId);
+    } catch (error) {
+      console.error(error);
+      setCommunities(prev); // rollback
+    }
+  };
+
+  return (
+    <CommunityContext.Provider
+      value={{
+        communities,
+        loading,
+        error,
+        fetchCommunities,
+        toggleJoinCommunity,
+      }}
+    >
+      {children}
+    </CommunityContext.Provider>
+  );
+};

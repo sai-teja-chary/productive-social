@@ -1,44 +1,50 @@
-.createpost-modal{
+.create-post-modal {
     width: 50%;
     max-height: 900px;
 }
 
-.createpost-header{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 20px 0;
+.create-post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
 }
 
-.createpost-header img{
-  width: 30px;
-  cursor: pointer;
+.create-post-header img {
+    width: 30px;
+    cursor: pointer;
 }
 
-.createpost-form form{
+.create-post-form form {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-.createpost-select{
+.create-post-select {
     width: 100%;
 }
-.community-input{
+
+.create-post-select:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.community-input {
     display: flex;
     flex-direction: column;
 }
 
-label{
+label {
     margin: 0 10px;
 }
 
-.createpost-upload{
+.create-post-upload {
     display: flex;
     flex-direction: column;
 }
 
-.createpost-upload-button{
+.create-post-upload-button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -47,22 +53,23 @@ label{
     background-color: white;
     border: 1px solid var(--color-blue);
 }
-.createpost-upload-button img{
+
+.create-post-upload-button img {
     width: 16px;
 }
 
-.createpost-submit-button{
+.create-post-submit-button {
     background: var(--color-blue);
     color: white;
 
 }
 
-.createpost-submit-button:hover{
+.create-post-submit-button:hover {
     background: var(--hover-blue);
     cursor: pointer;
 }
 
-.images-add-msg{
+.images-add-msg {
     color: green;
     text-align: center;
 }

@@ -1,4 +1,4 @@
-.community-join-button{
+.community-join-button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,5 +23,5 @@
 }
 
 .community-join-button.joined:hover {
-  box-shadow: 1px 1px 5px ;
+  box-shadow: 1px 1px 5px;
 }

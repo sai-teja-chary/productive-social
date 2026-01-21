@@ -1,7 +1,7 @@
 @import "../../styles/variables.css";
 
 
-.auth-footer{
+.auth-footer {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,11 +14,11 @@
     gap: 5px;
 }
 
-.auth-footer a{
+.auth-footer a {
     color: var(--color-blue);
     cursor: pointer;
 }
 
-.auth-footer a:hover{
+.auth-footer a:hover {
     color: var(--hover-blue);
 }

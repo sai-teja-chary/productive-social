@@ -9,4 +9,4 @@ export const Avatar = ({ src, alt = "", size = 40, className }) => {
       {src ? <img src={src} alt={alt} /> : alt.charAt(0).toUpperCase()}
     </div>
   );
-}
+};

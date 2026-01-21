@@ -1,97 +1,77 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { getGlobalPosts, likePosts, unlikePosts } from "../lib/api";
-import { AuthContext } from "./AuthContext";
+import { createContext, useContext, useState } from "react";
+import {
+  getGlobalPosts,
+  getCommunityPosts,
+  likePosts,
+  unlikePosts,
+} from "../lib/api";
 
-
-export const PostContext = createContext()
+export const PostContext = createContext();
 
 export const PostProvider = ({ children }) => {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-    const [globalPosts, setGlobalPosts] = useState([])
-    const { user } = useContext(AuthContext)
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        if (!user) {
-            setGlobalPosts([]);
-            return;
-        }
-        fetchGlobalPosts()
-    }, [user]);
-
-
-    const fetchGlobalPosts = async () => {
-        try {
-            setLoading(true)
-            const response = await getGlobalPosts()
-            console.log(response.data)
-            setGlobalPosts(response.data)
-        } catch (error) {
-            console.error(error)
-            setError(error)
-        } finally {
-            setLoading(false)
-        }
+  const fetchPosts = async () => {
+    try {
+      setLoading(true);
+      const res = await getGlobalPosts();
+      setPosts(res.data);
+    } catch (e) {
+      setError(e);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const addPost = (newPost) => {
-        setGlobalPosts(prev => [newPost, ...prev])
-    }
+  const addPost = (post) => {
+    setPosts((prev) => [post, ...prev]);
+  };
 
+  const updatePost = (postId, updater) => {
+    setPosts((prev) => prev.map((p) => (p.postId === postId ? updater(p) : p)));
+  };
 
-    const likePost = async (postId) => {
-        try {
-            setGlobalPosts(prev =>
-                prev.map(post =>
-                    post.postId === postId
-                        ? {
-                            ...post,
-                            likedByCurrentUser: true,
-                            likesCount: post.likesCount + 1
-                        }
-                        : post
-                )
-            )
-            await likePosts(postId)
-        } catch (error) {
-            console.log(error)
-            fetchGlobalPosts()
-        }
-    }
+  const likePost = async (postId) => {
+    updatePost(postId, (p) => ({
+      ...p,
+      likedByCurrentUser: true,
+      likesCount: p.likesCount + 1,
+    }));
+    await likePosts(postId);
+  };
 
-    const unlikePost = async (postId) => {
-        try {
+  const unlikePost = async (postId) => {
+    updatePost(postId, (p) => ({
+      ...p,
+      likedByCurrentUser: false,
+      likesCount: p.likesCount - 1,
+    }));
+    await unlikePosts(postId);
+  };
 
-            setGlobalPosts(prev =>
-                prev.map(post =>
-                    post.postId === postId
-                        ? {
-                            ...post,
-                            likedByCurrentUser: false,
-                            likesCount: post.likesCount - 1
-                        }
-                        : post
-                )
-            )
-            await unlikePosts(postId)
-        } catch (error) {
-            console.log(error)
-            fetchGlobalPosts()
-        }
-    }
+  const handleCommentAdded = (postId) => {
+    updatePost(postId, (p) => ({
+      ...p,
+      commentsCount: p.commentsCount + 1,
+    }));
+  };
 
-    const handleCommentAdded = (postId) => {
-        setGlobalPosts(prev =>
-            prev.map(p =>
-                p.postId === postId
-                    ? { ...p, commentsCount: p.commentsCount + 1 }
-                    : p
-            )
-        );
-    };
-
-    return <PostContext.Provider value={{ globalPosts, loading, error, likePost, unlikePost, fetchGlobalPosts, handleCommentAdded, addPost }}>
-        {children}
+  return (
+    <PostContext.Provider
+      value={{
+        posts,
+        loading,
+        error,
+        fetchPosts,
+        addPost,
+        likePost,
+        unlikePost,
+        handleCommentAdded,
+      }}
+    >
+      {children}
     </PostContext.Provider>
-}
+  );
+};

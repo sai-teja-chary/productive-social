@@ -4,8 +4,15 @@
 
 /* Fade In */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .fade-in {
@@ -14,8 +21,15 @@
 
 /* Slide Up */
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .slide-up {
@@ -24,9 +38,19 @@
 
 /* Pop In */
 @keyframes popIn {
-  0%   { transform: scale(0.9); opacity: 0; }
-  80%  { transform: scale(1.03); opacity: 1; }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+
+  80% {
+    transform: scale(1.03);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .pop-in {

@@ -1,4 +1,4 @@
-.task-card{
+.task-card {
     display: flex;
     gap: 20px;
     height: 120px;
@@ -8,17 +8,18 @@
     border-radius: var(--radius-md);
 }
 
-.task-notes-link{
+.task-notes-link {
     display: flex;
     gap: 5px;
     color: var(--color-blue);
     cursor: pointer;
 }
-.task-notes-link img{
+
+.task-notes-link img {
     width: 10px;
 }
 
-.task-options{
+.task-options {
     display: flex;
     gap: 20px;
     margin-left: auto;

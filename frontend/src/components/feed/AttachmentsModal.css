@@ -4,7 +4,7 @@
 
 }
 
-.upload-box{
+.upload-box {
     width: 100%;
     min-height: 350px;
     max-height: 400px;
@@ -19,44 +19,45 @@
 
 }
 
-.upload-btn{
+.upload-btn {
     background: var(--color-blue);
     width: 50px;
     border-radius: 50%;
     cursor: pointer;
 }
 
-.upload-btn.hidden{
+.upload-btn.hidden {
     display: none;
 }
 
-.attachment-button{
+.attachment-button {
     background: var(--color-blue);
     color: white;
     margin: 20px 0 10px 0;
 }
 
-.attachment-button:hover{
+.attachment-button:hover {
     background: var(--hover-blue);
     cursor: pointer;
 }
 
-.image-preview{
+.image-preview {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
 }
-.image-preview img{
+
+.image-preview img {
     border: 1px solid var(--color-blue);
     width: auto;
     height: 150px;
 }
 
-.preview-wrapper{
+.preview-wrapper {
     position: relative;
 }
 
-.preview-wrapper button{
+.preview-wrapper button {
     position: absolute;
     top: 0;
     right: 0;

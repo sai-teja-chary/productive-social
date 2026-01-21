@@ -1,106 +1,98 @@
 import { Home, UsersRound, UserRound, EllipsisVertical } from "lucide-react";
 import "./Navbar.css";
-import { Avatar } from "../ui/Avatar"
+import { Avatar } from "../ui/Avatar";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Card } from "../ui/Card";
 import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 export const Navbar = () => {
-    const cardRef = useRef()
-    const [profileOptionsClick, setProfileOptionsClick] = useState(false)
-    const { user, logout } = useContext(AuthContext)
-    const navigate = useNavigate()
+  const cardRef = useRef();
+  const [profileOptionsClick, setProfileOptionsClick] = useState(false);
+  const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-    const handleLogout = async () => {
-        await logout();
-        navigate("/login")
-    }
+  const handleLogout = async () => {
+    await logout();
+    navigate("/login");
+  };
 
-    useEffect(() => {
-        const handleClickOutside = (e) => {
-            if (
-                profileOptionsClick &&
-                cardRef.current &&
-                !cardRef.current.contains(e.target)
-            ) {
-                setProfileOptionsClick(false);
-            }
-        };
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        profileOptionsClick &&
+        cardRef.current &&
+        !cardRef.current.contains(e.target)
+      ) {
+        setProfileOptionsClick(false);
+      }
+    };
 
-        document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
 
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [profileOptionsClick]);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [profileOptionsClick]);
 
-    return (
-        <div className="sidebar">
+  return (
+    <div className="sidebar">
+      <div className="sidebar-logo">
+        <h1>Procial</h1>
+        <p>Chai peelo fraanss...</p>
+      </div>
+      <nav className="sidebar-nav">
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            isActive ? "nav-item active" : "nav-item"
+          }
+        >
+          <Home size={18} /> Home
+        </NavLink>
 
-            <div className="sidebar-logo">
-                <h1>Procial</h1>
-                <p>Chai peelo fraanss...</p>
-            </div>
-            <nav className="sidebar-nav">
-                <NavLink
-                    to="/"
-                    className={({ isActive }) =>
-                        isActive ? "nav-item active" : "nav-item"
-                    }
-                >
-                    <Home size={18} /> Home
-                </NavLink>
+        <NavLink
+          to="/communities"
+          className={({ isActive }) =>
+            isActive ? "nav-item active" : "nav-item"
+          }
+        >
+          <UsersRound size={18} /> Communities
+        </NavLink>
 
-                <NavLink
-                    to="/communities"
-                    className={({ isActive }) =>
-                        isActive ? "nav-item active" : "nav-item"
-                    }
-                >
-                    <UsersRound size={18} /> Communities
-                </NavLink>
+        <NavLink
+          to="/profile"
+          className={({ isActive }) =>
+            isActive ? "nav-item active" : "nav-item"
+          }
+        >
+          <UserRound size={18} /> Profile
+        </NavLink>
+      </nav>
 
-                <NavLink
-                    to="/profile"
-                    className={({ isActive }) =>
-                        isActive ? "nav-item active" : "nav-item"
-                    }
-                >
-                    <UserRound size={18} /> Profile
-                </NavLink>
+      <div
+        ref={cardRef}
+        className="profile-card"
+        onClick={(e) => {
+          e.stopPropagation();
+          setProfileOptionsClick((v) => !v);
+        }}
+      >
+        <Avatar alt={user.name} size={50} />
 
-            </nav>
-
-            <div ref={cardRef}
-                className="profile-card"
-                onClick={(e) => {
-                    e.stopPropagation();
-                    setProfileOptionsClick(v => !v);
-                }}
-            >
-                <Avatar alt={user.name} size={50} />
-
-                <div className="profile-details">
-                    <p className="profile-name">{user.name}</p>
-                    <p className="profile-user-name">{`@${user.username}`}</p>
-                </div>
-
-                <EllipsisVertical
-                    size={20}
-                    className="profile-more-icon"
-                />
-
-                <div className={`profile-options ${profileOptionsClick ? "open" : ""}`}>
-                    <Card variant="options-card">
-                        <p onClick={handleLogout}>Logout</p>
-                    </Card>
-                </div>
-
-
-            </div>
-
-
+        <div className="profile-details">
+          <p className="profile-name">{user.name}</p>
+          <p className="profile-user-name">{`@${user.username}`}</p>
         </div>
-    );
+
+        <EllipsisVertical size={20} className="profile-more-icon" />
+
+        <div className={`profile-options ${profileOptionsClick ? "open" : ""}`}>
+          <Card variant="options-card">
+            <p onClick={handleLogout}>Logout</p>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
 };
