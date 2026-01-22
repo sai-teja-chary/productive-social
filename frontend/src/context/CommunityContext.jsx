@@ -6,18 +6,20 @@ import { joinCommunity, leaveCommunity } from "../lib/api";
 export const CommunityContext = createContext();
 
 export const CommunityProvider = ({ children }) => {
-  const { user } = useContext(AuthContext);
+  const { user, loading:authLoading } = useContext(AuthContext);
   const [communities, setCommunities] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (authLoading) return;
+
     if (!user) {
       setCommunities([]);
       return;
     }
     fetchCommunities();
-  }, [user]);
+  }, [user, authLoading]);
 
   const fetchCommunities = async () => {
     try {

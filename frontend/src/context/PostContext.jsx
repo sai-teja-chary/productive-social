@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import {
+  getCommunityPosts,
   getGlobalPosts,
+  getUserPosts,
   likePosts,
   unlikePosts,
 } from "../lib/api";
@@ -9,28 +11,55 @@ import { AuthContext } from "./AuthContext";
 export const PostContext = createContext();
 
 export const PostProvider = ({ children }) => {
-  const { user } = useContext(AuthContext);
+  const { user, loading: authLoading } = useContext(AuthContext);
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState({
+    global: false,
+    community: false,
+    user: false,
+  });
+
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (authLoading) return;
+
     if (!user) {
       setPosts([]); // 🔥 RESET POSTS ON LOGOUT
     } else {
       fetchPosts(); // 🔥 REFRESH POSTS ON LOGIN
     }
-  }, [user]);
+  }, [user, authLoading]);
 
   const fetchPosts = async () => {
     try {
-      setLoading(true);
+      setLoading((l) => ({ ...l, global: true }));
       const res = await getGlobalPosts();
-      setPosts(res.data);
+      mergePosts(res.data); // 🔥 NOT setPosts
     } catch (e) {
       setError(e);
     } finally {
-      setLoading(false);
+      setLoading((l) => ({ ...l, global: false }));
+    }
+  };
+
+  const fetchCommunityPosts = async (communityId) => {
+    try {
+      setLoading((l) => ({ ...l, community: true }));
+      const res = await getCommunityPosts(communityId);
+      mergePosts(res.data);
+    } finally {
+      setLoading((l) => ({ ...l, community: false }));
+    }
+  };
+
+  const fetchUserPosts = async (userId) => {
+    try {
+      setLoading((l) => ({ ...l, user: true }));
+      const res = await getUserPosts(userId);
+      mergePosts(res.data);
+    } finally {
+      setLoading((l) => ({ ...l, user: false }));
     }
   };
 
@@ -75,6 +104,21 @@ export const PostProvider = ({ children }) => {
     }));
   };
 
+  const mergePosts = (newPosts) => {
+    setPosts((prev) => {
+      const map = new Map(prev.map((p) => [p.postId, p]));
+
+      newPosts.forEach((post) => {
+        map.set(post.postId, {
+          ...map.get(post.postId),
+          ...post,
+        });
+      });
+
+      return Array.from(map.values());
+    });
+  };
+
   return (
     <PostContext.Provider
       value={{
@@ -82,9 +126,9 @@ export const PostProvider = ({ children }) => {
         loading,
         error,
         fetchPosts,
+        fetchCommunityPosts,
+        fetchUserPosts,
         addPost,
-        likePost,
-        unlikePost,
         toggleLike,
         handleCommentAdded,
       }}

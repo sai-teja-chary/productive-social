@@ -22,9 +22,7 @@ export const Home = () => {
       fetchPosts();
     }
   }, []);
-
-  if (loading) return <div>Loading.....</div>;
-
+  
   const joinedCommunitiesMap = new Map(
     communities.filter((c) => c.joined).map((c) => [c.id, c]),
   );
@@ -46,10 +44,10 @@ export const Home = () => {
       </PageHeader>
 
       <div className="main">
-        {joinedPosts.length === 0 ? (
-          <div>No posts yet from your communities</div>
-        ) : loading ? (
+        {loading.global ? (
           Array.from({ length: 3 }).map((_, i) => <PostCardSkeleton key={i} />)
+        ) : joinedPosts.length === 0 ? (
+          <div>No posts yet from your communities</div>
         ) : (
           joinedPosts.map((post) => (
             <PostCard

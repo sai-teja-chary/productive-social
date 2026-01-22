@@ -26,11 +26,9 @@ export const CommunityPage = () => {
   const {
     posts,
     loading: postsLoading,
-    likePost,
-    unlikePost,
+    fetchCommunityPosts,
     handleCommentAdded,
     addPost,
-    fetchPosts,
   } = useContext(PostContext);
 
   const [showCreatePost, setShowCreatePost] = useState(false);
@@ -56,9 +54,10 @@ export const CommunityPage = () => {
   }, [communities.length, loading]);
 
   useEffect(() => {
-    if (active === "Feed" && communityPosts.length === 0) {
-      fetchPosts();
+    if (active === "Feed") {
+      fetchCommunityPosts(id);
     }
+
     if (active === "Syllabus" && syllabus.length === 0) {
       fetchCommunitySyllabus();
     }
@@ -136,7 +135,7 @@ export const CommunityPage = () => {
 
       <div className="main">
         {active === "Feed" &&
-          (postsLoading
+          (postsLoading.community
             ? Array.from({ length: 3 }).map((_, i) => (
                 <PostCardSkeleton key={i} />
               ))
