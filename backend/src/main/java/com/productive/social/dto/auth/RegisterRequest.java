@@ -19,4 +19,7 @@ public class RegisterRequest {
     
     @NotBlank
     private String name;
+    
+    @NotBlank
+    private String timezone;
 }

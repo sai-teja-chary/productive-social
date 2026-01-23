@@ -1,13 +1,15 @@
 package com.productive.social.service;
 
+import org.springframework.stereotype.Service;
+
 import com.productive.social.dao.profile.ProfileDAO;
 import com.productive.social.dto.profile.UserProfileResponse;
 import com.productive.social.entity.User;
 import com.productive.social.exceptions.InternalServerException;
 import com.productive.social.exceptions.NotFoundException;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
@@ -23,55 +25,66 @@ public class ProfileService {
      * -----------------------------------------
      */
     public UserProfileResponse getMyProfile() {
-        try {
-            User currentUser = authService.getCurrentUser();
+        User currentUser = authService.getCurrentUser();
 
-            log.info("Fetching profile for current user. userId={}", currentUser.getId());
+        try {
+            log.info("Fetching profile (self). userId={}", currentUser.getId());
 
             UserProfileResponse response =
                     profileDAO.getUserProfile(currentUser.getId());
 
-            log.info("Profile loaded successfully. userId={}", currentUser.getId());
+            if (response == null) {
+                throw new NotFoundException("User not found");
+            }
+
+            log.info("Profile loaded successfully (self). userId={}", currentUser.getId());
 
             return response;
-        }
-        catch (NotFoundException e) {
-            log.warn("Profile not found for current user");
+
+        } catch (NotFoundException e) {
             throw e;
-        }
-        catch (Exception e) {
-            log.error("Failed to load profile for current user", e);
+
+        } catch (Exception e) {
+            log.error("Profile load failed (self). userId={}", currentUser.getId(), e);
             throw new InternalServerException("Failed to load user profile");
         }
     }
 
+
     /**
      * -----------------------------------------
-     * Get public user profile by userId
+     * Get public user profile
      * -----------------------------------------
      */
     public UserProfileResponse getUserProfile(Long userId) {
         try {
-            log.info("Fetching public profile. userId={}", userId);
+            log.info("Fetching profile (public). userId={}", userId);
 
             UserProfileResponse response =
                     profileDAO.getUserProfile(userId);
 
             if (response == null) {
-                log.warn("User profile not found. userId={}", userId);
+                log.warn("Public profile not found. userId={}", userId);
                 throw new NotFoundException("User not found");
             }
 
-            log.info("Public profile loaded successfully. userId={}", userId);
+            log.info("Profile loaded successfully (public). userId={}", userId);
 
             return response;
-        }
-        catch (NotFoundException e) {
+
+        } catch (NotFoundException e) {
             throw e;
-        }
-        catch (Exception e) {
-            log.error("Failed to load public profile. userId={}", userId, e);
+
+        } catch (Exception e) {
+            log.error(
+                    "Profile load failed (public). userId={}",
+                    userId,
+                    e
+            );
             throw new InternalServerException("Failed to load user profile");
         }
     }
+
+
+   
 }

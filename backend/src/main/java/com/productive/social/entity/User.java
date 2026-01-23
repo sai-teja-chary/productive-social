@@ -34,6 +34,10 @@ public class User {
     private String name;
 
     private String bio;
+    
+    @Column(nullable = false)
+    private String timezone;
+
 
     @Column(nullable = false, updatable = false)
     @CreationTimestamp

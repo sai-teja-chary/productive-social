@@ -4,13 +4,17 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.productive.social.enums.MembershipStatus;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(
         name = "user_communities",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "community_id"})
+        uniqueConstraints = @UniqueConstraint(
+                columnNames = {"user_id", "community_id"}
+        )
 )
 @Getter
 @Setter
@@ -23,6 +27,10 @@ public class UserCommunity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // -------------------------
+    // RELATIONS
+    // -------------------------
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id")
     private User user;
@@ -31,10 +39,36 @@ public class UserCommunity {
     @JoinColumn(name = "community_id")
     private Community community;
 
+    // -------------------------
+    // MEMBERSHIP
+    // -------------------------
+
     @CreationTimestamp
     private LocalDateTime joinedAt;
 
-    private Integer streak = 0;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MembershipStatus status = MembershipStatus.ACTIVE;
 
-    private LocalDate lastActiveDate;
+    // -------------------------
+    // STREAK DATA (CORE)
+    // -------------------------
+
+    /**
+     * Current running streak
+     */
+    @Column(nullable = false)
+    private Integer currentStreak = 0;
+
+    /**
+     * Highest streak ever achieved
+     */
+    @Column(nullable = true)
+    private Integer longestStreak = 0;
+
+    /**
+     * Last day user performed an activity
+     * Stored in USER LOCAL DATE (not UTC timestamp)
+     */
+    private LocalDate lastActivityDate;
 }

@@ -3,6 +3,7 @@ package com.productive.social.service;
 import com.productive.social.dto.task.TaskResponse;
 import com.productive.social.dto.task.UpdateTaskProgressRequest;
 import com.productive.social.entity.*;
+import com.productive.social.enums.ActivityType;
 import com.productive.social.exceptions.ForbiddenException;
 import com.productive.social.exceptions.InternalServerException;
 import com.productive.social.exceptions.NotFoundException;
@@ -29,6 +30,7 @@ public class TaskService {
     private final CommunityRepository communityRepository;
     private final UserCommunityRepository userCommunityRepository;
     private final AuthService authService;
+    private final StreakService streakService;
 
     /** -----------------------------------------
      *  Fetch tasks/ syllabus with user progress
@@ -40,11 +42,11 @@ public class TaskService {
             Community community = communityRepository.findById(communityId)
                     .orElseThrow(() -> new CommunityNotFoundException("Community not found"));
 
-            boolean isMember = userCommunityRepository.findByUserAndCommunity(user, community).isPresent();
-            if (!isMember) {
-            	log.warn("User {} attempted to view tasks without joining community {}", user.getId(), communityId);
-                throw new ForbiddenException("Join the community to view its syllabus");
-            }
+//            boolean isMember = userCommunityRepository.findByUserAndCommunity(user, community).isPresent();
+//            if (!isMember) {
+//            	log.warn("User {} attempted to view tasks without joining community {}", user.getId(), communityId);
+//                throw new ForbiddenException("Join the community to view its syllabus");
+//            }
 
             List<Task> tasks = taskRepository.findByCommunityOrderByOrderIndexAsc(community);
             List<UserTaskProgress> progressList = userTaskProgressRepository.findByUser(user);
@@ -107,6 +109,13 @@ public class TaskService {
                     progress.setCompletedAt(LocalDateTime.now());
                     userTaskProgressRepository.save(progress);
                 }
+                
+                //  record streak
+                streakService.recordActivity(
+                        user,
+                        task.getCommunity(),
+                        ActivityType.TASK_COMPLETED
+                );
 
                 log.info("Task {} marked completed by user {}", task.getId(), user.getId());
                 return "Task marked as completed";

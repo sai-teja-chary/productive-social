@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.productive.social.enums.CommunityStatus;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -29,4 +31,8 @@ public class Community {
 
     @CreationTimestamp
     private LocalDateTime createdAt;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private CommunityStatus status = CommunityStatus.ACTIVE;
 }

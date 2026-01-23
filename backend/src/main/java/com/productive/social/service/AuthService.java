@@ -59,6 +59,7 @@ public class AuthService {
                     .name(request.getName())
                     .email(request.getEmail())
                     .password(passwordEncoder.encode(request.getPassword()))
+                    .timezone(request.getTimezone())
                     .build();
             
 
@@ -94,6 +95,14 @@ public class AuthService {
 
             String accessToken = jwtUtil.generateToken(user.getEmail());
             RefreshToken refreshToken = refreshTokenService.createRefreshToken(user);
+            
+            if (request.getTimezone() != null &&
+            	    !request.getTimezone().equals(user.getTimezone())) {
+
+            	    user.setTimezone(request.getTimezone());
+            	    userRepository.save(user);
+            	}
+
             
             log.info("User logged in successfully. userId={}", user.getId());
 
