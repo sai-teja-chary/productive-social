@@ -7,6 +7,7 @@ import com.productive.social.dto.profile.UserProfileResponse;
 import com.productive.social.entity.User;
 import com.productive.social.exceptions.InternalServerException;
 import com.productive.social.exceptions.NotFoundException;
+import com.productive.social.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ public class ProfileService {
 
     private final ProfileDAO profileDAO;
     private final AuthService authService;
+    private final UserRepository userRepository;
 
     /**
      * -----------------------------------------
@@ -56,9 +58,14 @@ public class ProfileService {
      * Get public user profile
      * -----------------------------------------
      */
-    public UserProfileResponse getUserProfile(Long userId) {
+    public UserProfileResponse getUserProfile(String userName) {
         try {
-            log.info("Fetching profile (public). userId={}", userId);
+            log.info("Fetching profile (public). userName={}", userName);
+            User user = userRepository.findByUsername(userName)
+                    .orElseThrow(() ->
+                            new NotFoundException("User not found"));
+
+            Long userId = user.getId();
 
             UserProfileResponse response =
                     profileDAO.getUserProfile(userId);
@@ -77,8 +84,8 @@ public class ProfileService {
 
         } catch (Exception e) {
             log.error(
-                    "Profile load failed (public). userId={}",
-                    userId,
+                    "Profile load failed (public). userName={}",
+                    userName,
                     e
             );
             throw new InternalServerException("Failed to load user profile");

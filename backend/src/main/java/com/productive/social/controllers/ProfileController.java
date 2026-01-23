@@ -42,17 +42,17 @@ public class ProfileController {
      *
      * GET /profile/{userId}
      */
-    @GetMapping("/{userId}")
+    @GetMapping("/{userName}")
     public ResponseEntity<UserProfileResponse> getUserProfile(
-            @PathVariable Long userId
+            @PathVariable String userName
     ) {
 
-        log.debug("Received request: GET /profile/{}", userId);
+        log.debug("Received request: GET /profile/{}", userName);
 
         UserProfileResponse response =
-                profileService.getUserProfile(userId);
+                profileService.getUserProfile(userName);
 
-        log.debug("Returning public profile. userId={}", userId);
+        log.debug("Returning public profile. userName={}", userName);
 
         return ResponseEntity.ok(response);
     }
