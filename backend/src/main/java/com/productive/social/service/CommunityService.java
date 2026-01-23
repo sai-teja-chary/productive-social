@@ -155,49 +155,62 @@ public class CommunityService {
      * ----------------------------------------- */
     @Transactional
     public JoinCommunityResponse joinCommunity(JoinCommunityRequest request) {
-        try {
-            User user = authService.getCurrentUser();
-            Community community = communityRepository.findById(request.getCommunityId())
-                    .orElseThrow(() -> new CommunityNotFoundException("Community not found"));
 
-            Optional<UserCommunity> record = userCommunityRepository
-                    .findByUserAndCommunity(user, community);
+        User user = authService.getCurrentUser();
 
-//            if (alreadyJoined) {
-//            	log.info("User {} tried to join community {} again", user.getId(), community.getId());
-//                return new JoinCommunityResponse("Already joined this community");
-//            }
-            
-            if (record.isPresent()) {
+        Community community = communityRepository.findById(request.getCommunityId())
+                .orElseThrow(() -> new CommunityNotFoundException("Community not found"));
+
+        Optional<UserCommunity> record =
+                userCommunityRepository.findByUserAndCommunity(user, community);
+
+        if (record.isPresent()) {
+
             UserCommunity membership = record.get();
+
             membership.setStatus(MembershipStatus.ACTIVE);
-            membership.setLastActivityDate(LocalDate.now());
+
+            // ✅ IMPORTANT
+            membership.setLastActivityDate(null);
+
             membership.setCurrentStreak(0);
-            membership.setLongestStreak(0);
-            }
-            else {
+
+            // preserve history
+            membership.setLongestStreak(
+                    membership.getLongestStreak() == null
+                            ? 0
+                            : membership.getLongestStreak()
+            );
+
+            log.info(
+                    "User {} re-joined community {}",
+                    user.getId(),
+                    community.getId()
+            );
+
+        } else {
+
             UserCommunity mapping = UserCommunity.builder()
                     .user(user)
                     .community(community)
+                    .status(MembershipStatus.ACTIVE)
                     .currentStreak(0)
                     .longestStreak(0)
-                    .lastActivityDate(LocalDate.now())
-                    .status(MembershipStatus.ACTIVE)
+                    .lastActivityDate(null)   // ✅ MUST BE NULL
                     .build();
 
             userCommunityRepository.save(mapping);
-            }
-            log.info("User {} joined community {}", user.getId(), community.getId());
-            return new JoinCommunityResponse("Successfully joined community");
+
+            log.info(
+                    "User {} joined community {}",
+                    user.getId(),
+                    community.getId()
+            );
         }
-        catch (CommunityNotFoundException e) {
-            throw e;
-        }
-        catch (Exception e) {
-        	log.error("Unexpected error while user joining community", e);
-            throw new InternalServerException("Failed to join community");
-        }
+
+        return new JoinCommunityResponse("Successfully joined community");
     }
+
 
     /** -----------------------------------------
      *  Get Community Details
