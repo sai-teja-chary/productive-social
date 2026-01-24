@@ -5,10 +5,13 @@ import { CommunityContext } from "../../context/CommunityContext";
 import { PageHeader } from "../../components/layout/PageHeader";
 import { CommunityViewToggle } from "../../components/community/CommunityViewToggle";
 import { CommunityList } from "../../components/community/CommunityList";
+import { CommunityLeaveModal } from "../../components/community/CommunityLeaveModal";
+import { useLeaveCommunity } from "../../hooks/useLeaveCommunity";
 
 export const Communities = () => {
   const { communities, loading, toggleJoinCommunity } =
     useContext(CommunityContext);
+  const leaveModal = useLeaveCommunity(toggleJoinCommunity);
   const [view, setView] = useState(
     () => localStorage.getItem("communityView") || "grid",
   );
@@ -17,13 +20,21 @@ export const Communities = () => {
     localStorage.setItem("communityView", view);
   }, [view]);
 
+  // 🔑 called when user clicks "Leave"
+  const handleLeaveClick = (community) => {
+    leaveModal.open(community)
+  };
+
+
   return (
     <PageContainer>
       <Navbar />
+
       <PageHeader
-        title={"Communities"}
-        description={"Join challenge based communities and stay accountable"}
+        title="Communities"
+        description="Join challenge based communities and stay accountable"
       />
+
       <div className="main">
         <CommunityViewToggle view={view} setView={setView} />
 
@@ -31,9 +42,17 @@ export const Communities = () => {
           communities={communities}
           loading={loading}
           view={view}
-          toggleJoinCommunity={toggleJoinCommunity}
+          onLeave={handleLeaveClick}
+          onJoin={toggleJoinCommunity}
         />
       </div>
+
+      {/* ✅ Leave modal */}
+      <CommunityLeaveModal
+        isOpen={leaveModal.isOpen}
+        onClose={leaveModal.close}
+        onClick={leaveModal.confirm}
+      />
     </PageContainer>
   );
 };

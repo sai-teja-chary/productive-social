@@ -97,6 +97,9 @@ export const getCommunityPosts = (communityId) =>
 
 export const getUserPosts = () => api.get("posts/feed/me");
 
+export const getUserPostsByUserName = (username) =>
+  api.get(`/posts/feed/${username}`)
+
 export const likePosts = (postId) => api.post(`/posts/${postId}/like`);
 
 export const unlikePosts = (postId) => api.delete(`/posts/${postId}/like`);
@@ -113,5 +116,17 @@ export const getCommunitySyllabus = (communityId) =>
 
 export const updateCommunityTask = (communityId, taskId, completed) =>
   api.post(`/communities/${communityId}/tasks/update`, {taskId, completed})
+
+export const getUserProfile = () =>
+  api.get("/profile/me")
+
+export const getUserProfileByUserName = (username) =>
+  api.get(`/profile/${username}`)
+
+export const getUserCommunities = () =>
+  api.get("/communities/me")
+
+export const getUserCommunitiesByUserName = (username) =>
+  api.get(`/communities/user/${username}`)
 
 export default api;

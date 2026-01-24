@@ -53,10 +53,14 @@ export const PostProvider = ({ children }) => {
     }
   };
 
-  const fetchUserPosts = async (userId) => {
+  const fetchUserPosts = async (username) => {
     try {
       setLoading((l) => ({ ...l, user: true }));
-      const res = await getUserPosts(userId);
+
+      const res = username
+        ? await getUserPostsByUserName(username)
+        : await getUserPosts();
+
       mergePosts(res.data);
     } finally {
       setLoading((l) => ({ ...l, user: false }));

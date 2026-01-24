@@ -24,3 +24,17 @@
 .notes-button:hover {
   background-color: #e4f0ff;
 }
+
+.leave-button{
+  width: 120px;
+  background-color: red;
+  color: white;
+  font-weight: 600;
+}
+
+.cancel-button{
+  width: 120px;
+  background-color: var(--gray-300);
+  color: black;
+  font-weight: 600;
+}

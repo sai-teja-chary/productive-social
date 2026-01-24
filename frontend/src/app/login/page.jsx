@@ -21,7 +21,7 @@ export const Login = () => {
   // 🔥 Automatic redirect when user becomes authenticated
   useEffect(() => {
     if (!loading && user) {
-      navigate(from, { replace: true });
+      navigate(from, { replace : true });
     }
   }, [user, loading]);
 

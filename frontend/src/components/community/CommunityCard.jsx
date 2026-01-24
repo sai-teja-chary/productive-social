@@ -15,7 +15,8 @@ export const CommunityCard = ({
   view,
   className,
   clickable = true,
-  toggleJoinCommunity,
+  onJoin,
+  onLeave,
 }) => {
   const navigate = useNavigate();
 
@@ -25,6 +26,7 @@ export const CommunityCard = ({
       onClick={clickable ? () => navigate(`/communities/${id}`) : undefined}
     >
       <CommunityBanner streak={streak} id={id} view={view} />
+
       <CommunityHeader
         name={name}
         description={description}
@@ -32,15 +34,23 @@ export const CommunityCard = ({
         streak={streak}
         view={view}
       />
+
       <div className={`community-card-footer ${view === "list" ? "list" : ""}`}>
-        <JoinButton
-          id={id}
-          joined={joined}
-          onClick={(e) => {
-            e.stopPropagation();
-            toggleJoinCommunity(id);
-          }}
-        />
+        {(onJoin || onLeave) && (
+          <JoinButton
+            id={id}
+            joined={joined}
+            onClick={(e) => {
+              e.stopPropagation();
+
+              if (joined) {
+                onLeave();
+              } else {
+                onJoin();
+              }
+            }}
+          />
+        )}
       </div>
     </Card>
   );

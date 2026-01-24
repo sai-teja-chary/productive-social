@@ -15,12 +15,15 @@ import { CreatePostModal } from "../../../components/feed/CreatePostModal";
 import { CommunityBanner } from "../../../components/community/CommunityBanner";
 import { CommunityHeader } from "../../../components/community/CommunityHeader";
 import "../Communities.css";
-import { TaskItem } from "../../../components/community/TaskItem";
 import { getCommunitySyllabus, updateCommunityTask } from "../../../lib/api";
 import { JoinButton } from "../../../components/community/JoinButton";
 import { TaskList } from "../../../components/community/TaskList";
+import { CommunityLeaveModal } from "../../../components/community/CommunityLeaveModal";
+import { useLeaveCommunity } from "../../../hooks/useLeaveCommunity";
 
 export const CommunityPage = () => {
+  
+
   const { communities, loading, fetchCommunities, toggleJoinCommunity } =
     useContext(CommunityContext);
 
@@ -31,7 +34,7 @@ export const CommunityPage = () => {
     handleCommentAdded,
     addPost,
   } = useContext(PostContext);
-
+  const leaveModal = useLeaveCommunity(toggleJoinCommunity);
   const [showCreatePost, setShowCreatePost] = useState(false);
   const [syllabus, setSyllabus] = useState([]);
   const [loadingSyllabus, setLoadingSyllabus] = useState(false);
@@ -78,7 +81,7 @@ export const CommunityPage = () => {
 
   const handelTabChange = (tab) => {
     setActive(tab);
-    setSearchParams({ tab });
+    setSearchParams({ tab }, { replace: true });
   };
 
   if (loading || !community) {
@@ -123,8 +126,8 @@ export const CommunityPage = () => {
             <Tooltip label={"leave"}>
               <LogOut
                 size={30}
-                className="leave-button"
-                onClick={() => toggleJoinCommunity(community.id)}
+                className="leave-icon"
+                onClick={() => leaveModal.open(community)}
               />
             </Tooltip>
           )}
@@ -168,11 +171,19 @@ export const CommunityPage = () => {
                   key={post.postId}
                   post={post}
                   onCommentAdded={() => handleCommentAdded(post.postId)}
+                  displayStreakBadge={true}
                 />
               )))}
 
         {active === "Syllabus" && syllabus.length > 0 && (
-          <TaskList syllabus={syllabus} onToggle={toggleTask} />
+          <>
+            {!communityJoined && <div>Join community to track progress</div>}
+            <TaskList
+              syllabus={syllabus}
+              onToggle={toggleTask}
+              disabled={!communityJoined}
+            />
+          </>
         )}
       </div>
 
@@ -182,6 +193,12 @@ export const CommunityPage = () => {
         joinedCommunities={[community]}
         defaultCommunityId={community.id}
         onPostCreated={addPost}
+      />
+
+      <CommunityLeaveModal
+        isOpen={leaveModal.isOpen}
+        onClose={leaveModal.close}
+        onClick={leaveModal.confirm}
       />
     </PageContainer>
   );

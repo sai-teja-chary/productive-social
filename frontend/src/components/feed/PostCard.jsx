@@ -11,6 +11,8 @@ export const PostCard = ({
   post,
   onCommentAdded,
   displayCommunityBadge,
+  displayStreakBadge,
+  userNameClickable
 }) => {
   const [showComments, setShowComments] = useState(false);
   const {toggleLike} = useContext(PostContext)
@@ -50,6 +52,8 @@ export const PostCard = ({
         community={post.community}
         streak={`${post.user.streak}`}
         displayCommunityBadge={displayCommunityBadge}
+        displayStreakBadge={displayStreakBadge}
+        userNameClickable={userNameClickable}
       />
 
       <PostBody

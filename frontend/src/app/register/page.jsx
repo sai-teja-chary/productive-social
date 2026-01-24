@@ -25,7 +25,7 @@ export const Register = () => {
   // 🔥 Automatic redirect when user becomes authenticated
   useEffect(() => {
     if (!loading && user) {
-      navigate(from, { replace: true });
+      navigate(from, { replace : true });
     }
   }, [user, loading]);
 
@@ -54,7 +54,7 @@ export const Register = () => {
 
       await register(body);
       alert("Registration Successful!");
-      navigate("/login");
+      navigate("/login", {replace : true});
     } catch (error) {
       console.error("REGISTER ERROR:", err.response?.data);
       alert("Registration failed.");

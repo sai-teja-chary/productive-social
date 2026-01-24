@@ -28,13 +28,13 @@
 
 }
 
-.leave-button{
+.leave-icon{
     color: red;
     border-radius: 50%;
     padding: 5px;
 }
 
-.leave-button:hover{
+.leave-icon:hover{
     cursor: pointer;
     background-color: red;
     color: white;

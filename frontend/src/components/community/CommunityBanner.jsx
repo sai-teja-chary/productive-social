@@ -20,11 +20,13 @@ export const CommunityBanner = ({ streak, id, view }) => {
         src={robotIcon}
         alt="banner-icon"
       />
-      <Badge
-        variant="white-badge"
-        label={streak ? `${streak}d` : "0d"}
-        icon={<Flame size={14} />}
-      />
+      {streak > 0 && (
+        <Badge
+          variant="white-badge"
+          label={`${streak}d`}
+          icon={<Flame size={14} />}
+        />
+      )}
     </div>
   ) : (
     <div

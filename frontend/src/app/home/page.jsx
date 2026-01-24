@@ -55,6 +55,7 @@ export const Home = () => {
               post={post}
               onCommentAdded={() => handleCommentAdded(post.postId)}
               displayCommunityBadge
+              displayStreakBadge={true}
             />
           ))
         )}

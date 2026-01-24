@@ -31,6 +31,17 @@
   color: var(--color-purple);
 }
 
+.blue-badge {
+  background: rgba(58, 106, 237, 0.15);
+  color: var(--color-blue);
+  width: auto;
+}
+
+.pink-badge {
+  background: #ffbfdf;
+  color: #DE3163;
+  width: auto;
+}
 .streak-badge {
   background-color: #fae8d0;
   color: #e28e4a;

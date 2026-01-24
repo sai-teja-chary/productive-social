@@ -11,6 +11,8 @@ export const PostHeader = ({
   community,
   streak,
   displayCommunityBadge = false,
+  displayStreakBadge = false,
+  userNameClickable = true,
   children,
 }) => {
   const navigate = useNavigate();
@@ -19,7 +21,10 @@ export const PostHeader = ({
       <Avatar alt={user.name} size={60} />
       <div className="post-header-details">
         <div className="post-user-details">
-          <p className="post-user">{user.username}</p>
+          <p 
+          className="post-user"
+          onClick={userNameClickable ? () => navigate(`/profile/${user.username}`) : undefined}
+          >{user.username}</p>
           <p className="post-time"> • {createdAt}</p>
         </div>
         <div className="post-header-badges">
@@ -30,7 +35,9 @@ export const PostHeader = ({
               label={community.name}
             />
           )}
-          <Badge variant="streak-badge" label={streak} icon={fireicon} />
+          {displayStreakBadge && (
+            <Badge variant="streak-badge" label={streak} icon={fireicon} />
+          )}
         </div>
       </div>
       <EllipsisVertical className="menu-option" size={20} />

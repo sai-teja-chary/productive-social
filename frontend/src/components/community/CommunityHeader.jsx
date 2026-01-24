@@ -26,7 +26,7 @@ export const CommunityHeader = ({
           label={`${150} posts`}
           icon={<TrendingUp size={15} />}
         />
-        {view === "list" && streak && (
+        {view === "list" && streak > 0 && (
           <Badge
             variant="streak-badge"
             label={`${streak} day streak`}

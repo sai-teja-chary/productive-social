@@ -6,7 +6,7 @@ import { Register } from "./app/register/page";
 import { Communities } from "./app/communities/page";
 import { CommunityPage } from "./app/communities/[id]/page";
 import { Notes } from "./app/notes/page";
-import { Profile } from "./app/profile/page";
+import { Profile } from "./app/profile/[username]/page";
 import { ProtectedRoute } from "./components/layout/ProtectedRoute";
 
 function App() {
@@ -21,6 +21,7 @@ function App() {
         <Route path="/communities/:id" element={<CommunityPage />} />
         <Route path="/notes" element={<Notes />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/:username" element={<Profile />} />
       </Route>
     </Routes>
   );

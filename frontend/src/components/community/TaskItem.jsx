@@ -1,19 +1,18 @@
-import { useEffect, useState } from "react";
+
 import { Card } from "../ui/Card";
 import "./TaskItem.css";
 import { Checkbox } from "../ui/Checkbox";
 import notesIcon from "../../assets/icons/notes.svg";
-import { Copy, Pencil } from "lucide-react";
-import { updateCommunityTask } from "../../lib/api";
 
 
-export const TaskItem = ({ title, taskId, completed, onToggle }) => {
+export const TaskItem = ({ title, taskId, completed, onToggle, disabled }) => {
 
   return (
     <Card className="task-card">
       <Checkbox
         completed={completed}
         onChange={(next) => onToggle(taskId, next)}
+        disabled={disabled}
       />
 
       <div className="task-details">
@@ -24,10 +23,6 @@ export const TaskItem = ({ title, taskId, completed, onToggle }) => {
         </span>
       </div>
 
-      <div className="task-options">
-        <Copy size={20} />
-        <Pencil size={20} />
-      </div>
     </Card>
   );
 };
