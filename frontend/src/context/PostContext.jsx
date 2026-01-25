@@ -3,6 +3,7 @@ import {
   getCommunityPosts,
   getGlobalPosts,
   getUserPosts,
+  getUserPostsByUserName,
   likePosts,
   unlikePosts,
 } from "../lib/api";
