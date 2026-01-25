@@ -1,30 +1,40 @@
 package com.productive.social.service;
 
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.productive.social.dao.PostDAO;
 import com.productive.social.dto.posts.PostCreateRequest;
 import com.productive.social.dto.posts.PostResponse;
-import com.productive.social.entity.*;
+import com.productive.social.entity.Community;
+import com.productive.social.entity.Post;
+import com.productive.social.entity.PostImage;
+import com.productive.social.entity.PostLike;
+import com.productive.social.entity.User;
+import com.productive.social.entity.UserCommunity;
 import com.productive.social.enums.ActivityType;
 import com.productive.social.enums.MembershipStatus;
 import com.productive.social.exceptions.NotFoundException;
 import com.productive.social.exceptions.community.CommunityNotFoundException;
 import com.productive.social.exceptions.posts.PostCreationException;
 import com.productive.social.exceptions.posts.PostImageUploadException;
-import com.productive.social.repository.*;
+import com.productive.social.repository.CommunityRepository;
+import com.productive.social.repository.PostImageRepository;
+import com.productive.social.repository.PostLikeRepository;
+import com.productive.social.repository.PostRepository;
+import com.productive.social.repository.UserCommunityRepository;
+import com.productive.social.repository.UserRepository;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -39,6 +49,7 @@ public class PostService {
     private final ImageStorageService imageStorageService;
     private final StreakService streakService;
     private final UserCommunityRepository userCommunityRepository;
+    private final UserRepository userRepository;
 
     // -------------------------
     // CREATE POST
@@ -236,15 +247,61 @@ public class PostService {
 
 
 
-    public List<PostResponse> getUserPosts(int page, int pageSize) {
+ // =====================================================
+    // /feed/me
+    // =====================================================
+    public List<PostResponse> getMyPosts(int page, int pageSize) {
 
         User currentUser = authService.getCurrentUser();
 
-        // 1️⃣ Fetch posts (streak = 0 from DAO)
+        return buildUserFeed(
+                currentUser.getId(),   // posts owner
+                currentUser,           // viewer
+                page,
+                pageSize
+        );
+    }
+
+    // =====================================================
+    // /feed/{username}
+    // =====================================================
+    public List<PostResponse> getPostsByUsername(
+            String userName,
+            int page,
+            int pageSize
+    ) {
+
+        User postOwner =
+                userRepository.findByUsername(userName)
+                        .orElseThrow(() ->
+                                new NotFoundException("User not found")
+                        );
+
+        User viewer = authService.getCurrentUser();
+
+        return buildUserFeed(
+                postOwner.getId(),     // posts owner
+                viewer,                // viewer
+                page,
+                pageSize
+        );
+    }
+
+    // =====================================================
+    // 🔥 CORE GENERIC LOGIC
+    // =====================================================
+    private List<PostResponse> buildUserFeed(
+            Long postOwnerId,
+            User viewer,
+            int page,
+            int pageSize
+    ) {
+
+        // 1️⃣ Fetch posts (DAO unchanged)
         List<PostResponse> feed =
                 postDAO.getUserPosts(
-                        currentUser.getId(),
-                        currentUser,
+                        postOwnerId,
+                        viewer,
                         page,
                         pageSize
                 );
@@ -253,21 +310,22 @@ public class PostService {
             return feed;
         }
 
-        // 2️⃣ Collect all communityIds from user's posts
-        Set<Long> communityIds = feed.stream()
-                .map(p -> p.getCommunity().getId())
-                .collect(Collectors.toSet());
+        // 2️⃣ Collect communityIds
+        Set<Long> communityIds =
+                feed.stream()
+                        .map(p -> p.getCommunity().getId())
+                        .collect(Collectors.toSet());
 
-        // 3️⃣ Load memberships for current user
+        // 3️⃣ Load memberships FOR VIEWER
         List<UserCommunity> memberships =
                 userCommunityRepository
                         .findByUserIdAndCommunityIdInAndStatus(
-                                currentUser.getId(),
+                                viewer.getId(),
                                 communityIds,
                                 MembershipStatus.ACTIVE
                         );
 
-        // 4️⃣ Build lookup map
+        // 4️⃣ Build lookup
         Map<Long, UserCommunity> membershipMap =
                 memberships.stream()
                         .collect(Collectors.toMap(
@@ -275,17 +333,20 @@ public class PostService {
                                 uc -> uc
                         ));
 
-        // 5️⃣ Inject streak per post
+        // 5️⃣ Inject streak (viewer streak)
         for (PostResponse post : feed) {
 
             UserCommunity membership =
-                    membershipMap.get(post.getCommunity().getId());
+                    membershipMap.get(
+                            post.getCommunity().getId()
+                    );
 
             int streak = 0;
 
             if (membership != null) {
                 streak =
-                        streakService.calculateEffectiveStreak(membership);
+                        streakService
+                                .calculateEffectiveStreak(membership);
             }
 
             post.getUser().setStreak(streak);

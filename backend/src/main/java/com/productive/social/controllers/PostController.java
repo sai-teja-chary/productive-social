@@ -56,14 +56,30 @@ public class PostController {
     }
 
     // ----------------------------------------------------
-    // USER FEED (PROFILE POSTS)
+    // USER FEED (CURRENT USER)
     // ----------------------------------------------------
     @GetMapping("/feed/me")
     public ResponseEntity<List<PostResponse>> getMyPosts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int pageSize
     ) {
-        return ResponseEntity.ok(postService.getUserPosts(page, pageSize));
+        return ResponseEntity.ok(
+                postService.getMyPosts(page, pageSize)
+        );
+    }
+
+    // ----------------------------------------------------
+    // USER FEED (SPECIFIC USER)
+    // ----------------------------------------------------
+    @GetMapping("/feed/{userName}")
+    public ResponseEntity<List<PostResponse>> getUserPosts(
+            @PathVariable String userName,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int pageSize
+    ) {
+        return ResponseEntity.ok(
+                postService.getPostsByUsername(userName, page, pageSize)
+        );
     }
 
     // ----------------------------------------------------
