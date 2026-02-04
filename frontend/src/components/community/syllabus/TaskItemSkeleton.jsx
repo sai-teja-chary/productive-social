@@ -4,7 +4,6 @@ import { Skeleton } from "../../ui/Skeleton";
 
 export const TaskItemSkeleton = () => {
   return (
-    <div aria-hidden="true">
       <Card className="task-card">
         <Skeleton width="30px" height="30px" circle />
 
@@ -13,6 +12,5 @@ export const TaskItemSkeleton = () => {
           <Skeleton width="20%" />
         </div>
       </Card>
-    </div>
   );
 };

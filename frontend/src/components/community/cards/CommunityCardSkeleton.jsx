@@ -6,7 +6,6 @@ import { Skeleton } from "../../ui/Skeleton";
 
 export const CommunityCardSkeleton = ({ view }) => {
   return (
-    <div aria-hidden="true">
       <Card className={`community-card ${view === "list" ? "list" : ""}`}>
         {/* Banner */}
         {view === "grid" ? (
@@ -40,6 +39,5 @@ export const CommunityCardSkeleton = ({ view }) => {
           <Skeleton width={view === "grid" ? "100%" : "120px"} height="44px" />
         </div>
       </Card>
-    </div>
   );
 };

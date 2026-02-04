@@ -8,6 +8,7 @@ export const Skeleton = ({
   return (
     <div
       className="skeleton"
+      aria-hidden="true"
       style={{
         width,
         height,

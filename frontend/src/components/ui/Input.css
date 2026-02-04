@@ -31,6 +31,8 @@
   transform: translateY(-50%);
   width: 15px;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
 }
 
 

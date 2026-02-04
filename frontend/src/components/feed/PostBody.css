@@ -20,7 +20,7 @@
 
 }
 
-.post-images {
+/* .post-images {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
@@ -29,7 +29,22 @@
 .post-image {
     width: auto;
     height: 300px;
+} */
+
+.post-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 }
+
+/* Default: Desktop */
+.post-image {
+  max-width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+}
+
 
 .notes-link-text {
     font-weight: 500;
@@ -38,4 +53,27 @@
 
 .notes-button img {
     width: 16px;
+}
+
+
+/* Tablet */
+@media (max-width: 1023px) {
+  .post-image {
+    height: 240px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .post-images {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .post-image {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: contain;
+  }
 }

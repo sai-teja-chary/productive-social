@@ -14,7 +14,7 @@ export const Select = ({
   return (
     <select
       id={id}
-      className={`select ${className}`}
+      className={`select ${className ?? ""}`}
       value={value}
       onChange={onChange}
       {...rest}

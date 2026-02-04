@@ -147,3 +147,21 @@
   padding: 8px;
   border-radius: var(--radius-sm);
 }
+
+/* =========================
+   Mobile Sidebar Behavior
+   ========================= */
+@media (max-width: 767px) {
+  .sidebar {
+    width: 280px;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+  }
+
+  /* When you later add a menu button,
+     just toggle this class */
+  .sidebar.open {
+    transform: translateX(0);
+  }
+}

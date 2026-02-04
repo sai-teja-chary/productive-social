@@ -7,7 +7,7 @@ export const Card = ({
   ...rest
 }) => {
   return (
-    <div className={`card ${variant} ${className}`} {...rest}>
+    <div className={`card ${variant} ${className ?? ""}`} {...rest}>
       {children}
     </div>
   );

@@ -1,4 +1,5 @@
 import "./Input.css";
+import { Button } from "./Button";
 
 export const Input = ({
   id,
@@ -15,20 +16,21 @@ export const Input = ({
     <div className="input-wrapper">
       <input
         id={id}
-        className={`input ${className}`}
+        className={`input ${className ?? ""}`}
         type={type}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
         {...rest}
       />
-      {icon && (
-        <img
+      {icon && onClick && (
+        <Button
           className="input-icon"
           onClick={onClick}
-          src={icon}
-          alt="toggle-icon"
-        />
+          aria-label="Toggle input visibility"
+        >
+          <img src={icon} alt="" aria-hidden="true" />
+        </Button>
       )}
     </div>
   );

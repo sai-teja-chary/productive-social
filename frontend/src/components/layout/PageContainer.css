@@ -2,3 +2,13 @@
   margin-left: 320px;
   width: calc(100% - 320px);
 }
+
+/* =========================
+   Mobile layout
+   ========================= */
+@media (max-width: 767px) {
+  .page-container {
+    margin-left: 0;
+    width: 100%;
+  }
+}

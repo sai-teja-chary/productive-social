@@ -5,7 +5,7 @@ export const TextArea = ({
   placeholder = "",
   value,
   onChange,
-  className = "default-textarea",
+  className = "",
   rows = 4,
   ...rest
 }) => {
