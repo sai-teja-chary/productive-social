@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.productive.social.dao.PostDAO;
+import com.productive.social.dao.StreakDAO;
 import com.productive.social.dto.posts.PostCreateRequest;
 import com.productive.social.dto.posts.PostResponse;
 import com.productive.social.entity.Community;
@@ -48,6 +49,7 @@ public class PostService {
     private final PostDAO postDAO;
     private final ImageStorageService imageStorageService;
     private final StreakService streakService;
+    private final StreakDAO streakDAO;
     private final UserCommunityRepository userCommunityRepository;
     private final UserRepository userRepository;
 
@@ -89,7 +91,10 @@ public class PostService {
          );
 
             log.info("Post created successfully. userId={}, postId={}", user.getId(), post.getId());
-            return postDAO.getUserPosts(user.getId(), user, 0, 1).get(0);
+            Integer streak = streakDAO.getStreakForCurrentUserInCommunity(user.getId(), post.getCommunity().getId());
+            PostResponse currentPost =  postDAO.getCurrentPost(post.getId(),post.getCommunity().getId(),user.getId(), user, 0, 1).get(0);
+            currentPost.getCommunity().setStreak(streak);
+            return currentPost;
         }
         catch (CommunityNotFoundException | PostImageUploadException e) {
             throw e; // handled by GlobalExceptionHandler

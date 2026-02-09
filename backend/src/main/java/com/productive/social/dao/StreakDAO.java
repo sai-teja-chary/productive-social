@@ -26,4 +26,17 @@ public class StreakDAO {
                 .getResultStream()
                 .findFirst();
     }
+    
+    public int getStreakForCurrentUserInCommunity(Long userId, Long communityId) {
+
+        return em.createQuery("""
+                SELECT uc.currentStreak
+                FROM UserCommunity uc
+                WHERE uc.user.id = :userId
+                  AND uc.community.id = :communityId
+                """, Integer.class)
+                .setParameter("userId", userId)
+                .setParameter("communityId", communityId)
+                .getSingleResult();
+    }
 }

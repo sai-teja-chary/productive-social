@@ -221,4 +221,27 @@ public class PostDAO {
 
         return new HashSet<>(rows);
     }
+    
+    // ----------------------------
+    // USER FEED (PROFILE POSTS)
+    // ----------------------------
+    public List<PostResponse> getCurrentPost(Long postId, Long communityId, Long userId, User currentUser, int page, int pageSize) {
+
+        List<Post> posts = entityManager.createQuery("""
+                SELECT p FROM Post p
+                JOIN FETCH p.user u
+                JOIN FETCH p.community c
+                WHERE u.id = :uid
+                AND p.id = :postId
+                ORDER BY p.createdAt DESC
+                """, Post.class)
+                .setParameter("uid", userId)
+                .setParameter("postId", postId)
+                .setFirstResult(page * pageSize)
+                .setMaxResults(pageSize)
+                .getResultList();
+
+        List<PostResponse> feed = buildFeedResponse(posts, currentUser);
+         return feed;
+    }
 }
